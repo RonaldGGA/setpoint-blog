@@ -14,8 +14,10 @@ export interface Series {
   slug: string;
 }
 
+import { Document } from "@contentful/rich-text-types";
+
 export interface ArticleBody {
-  json: Record<string, unknown>;
+  json: Document;
 }
 
 export interface Article {

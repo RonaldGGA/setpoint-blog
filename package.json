@@ -11,6 +11,9 @@
   "dependencies": {
     "@apollo/client": "^4.1.6",
     "@apollo/client-integration-nextjs": "^0.14.4",
+    "@contentful/rich-text-react-renderer": "^16.1.6",
+    "@contentful/rich-text-types": "^17.2.5",
+    "geist": "^1.7.0",
     "next": "16.2.2",
     "react": "19.2.4",
     "react-dom": "19.2.4"

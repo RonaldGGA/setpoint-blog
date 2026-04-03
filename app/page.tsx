@@ -1,24 +1,32 @@
-import { query } from "@/lib/ApolloClient";
+import { getClient } from "@/lib/ApolloClient";
 import { GET_ARTICLES } from "@/lib/queries/articles";
-import { Article, GetArticleQuery } from "@/types/contentful";
+import { Article, GetArticlesQuery } from "@/types/contentful";
+import Link from "next/link";
+
+export const revalidate = 60;
 
 export default async function Home() {
-  const { data } = await query<GetArticleQuery>({ query: GET_ARTICLES });
+  const { data } = await getClient().query<GetArticlesQuery>({
+    query: GET_ARTICLES,
+  });
 
-  if (!data)
+  const articles: Article[] = data?.articleCollection?.items ?? [];
+
+  if (articles.length === 0) {
     return (
       <main>
         <p>No articles found.</p>
       </main>
     );
-
-  const articles: Article[] = data.articleCollection.items;
+  }
 
   return (
     <main>
       {articles.map((article) => (
         <div key={article.slug}>
-          <h2>{article.title}</h2>
+          <Link href={`/articles/${article.slug}`}>
+            <h2>{article.title}</h2>
+          </Link>
           <p>{article.excerpt}</p>
           <span>{article.readingTime} min read</span>
         </div>
