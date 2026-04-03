@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ApolloWrapper } from "@/lib/ApolloWrapper";
+import Navbar from "./components/Navbar";
 
 const inter = localFont({
   src: "./fonts/InterVariable.woff2",
@@ -28,6 +29,7 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <Navbar />
         <ApolloWrapper>{children}</ApolloWrapper>
       </body>
     </html>
