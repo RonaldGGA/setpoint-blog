@@ -1,3 +1,4 @@
+import ReadingProgress from "@/app/components/ReadingProgress";
 import TagBadge from "@/app/components/TagBade";
 import { getClient } from "@/lib/ApolloClient";
 import { GET_ARTICLE_BY_SLUG } from "@/lib/queries/articles";
@@ -57,6 +58,7 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-16">
+      <ReadingProgress />
       <div className="mx-auto max-w-2xl">
         {article.tags.items.length > 0 && (
           <div className="mb-4 flex flex-wrap gap-2">
