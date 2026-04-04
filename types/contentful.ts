@@ -27,6 +27,7 @@ export interface Article {
   publishedAt: string;
   readingTime: number;
   syndication: boolean;
+  featured?: boolean;
   coverImage: CoverImage | null;
   tags: { items: Tag[] };
   series: Series | null;

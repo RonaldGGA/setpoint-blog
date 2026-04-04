@@ -2,6 +2,8 @@ import { getClient } from "@/lib/ApolloClient";
 import { GET_ARTICLES } from "@/lib/queries/articles";
 import { Article, GetArticlesQuery } from "@/types/contentful";
 import ArticleCard from "./components/ArticleCard";
+import FeaturedCard from "./components/FeaturedCard";
+import HeroSection from "./components/HeroSection";
 
 export const revalidate = 60;
 
@@ -11,22 +13,18 @@ export default async function Home() {
   });
 
   const articles: Article[] = data?.articleCollection?.items ?? [];
+  const featured = articles.find((a) => a.featured);
+  const grid = articles.filter((a) => !a.featured).slice(0, 6);
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-16">
-      <div className="mb-12">
-        <h1 className="font-display text-4xl font-bold text-[var(--color-text-primary)]">
-          Setpoint
-        </h1>
-        <p className="mt-3 text-[var(--color-text-muted)]">
-          Technical publishing for Industry 4.0 — SCADA, PLCs, IIoT, and modern
-          software.
-        </p>
-      </div>
+      <HeroSection />
+
+      {featured && <FeaturedCard article={featured} />}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {articles.map((article) => (
-          <ArticleCard key={article.slug} article={article} />
+        {grid.map((article, index) => (
+          <ArticleCard key={article.slug} article={article} index={index} />
         ))}
       </div>
     </main>

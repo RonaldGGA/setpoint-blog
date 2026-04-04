@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_ARTICLES = gql`
   query GetArticles {
-    articleCollection {
+    articleCollection(order: publishedAt_DESC, limit: 7) {
       items {
         title
         slug
@@ -10,6 +10,7 @@ export const GET_ARTICLES = gql`
         publishedAt
         readingTime
         syndication
+        featured
         coverImage {
           url
           description

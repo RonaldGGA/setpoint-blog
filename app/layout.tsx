@@ -25,27 +25,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // layout.tsx — quita el <head> completo y pon el script aquí:
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${GeistSans.variable} ${GeistMono.variable} ${inter.variable} h-full antialiased`}
     >
-      <head>
-        <script
+      <body className="min-h-full flex flex-col">
+        <script // ← directo en body, antes de todo
           dangerouslySetInnerHTML={{
             __html: `
-        (function() {
-          try {
-            var theme = localStorage.getItem('theme');
-            if (theme === 'light') {
-              document.documentElement.classList.add('light');
-            }
-          } catch(e) {}
-        })();
-      `,
+          (function() {
+            try {
+              var theme = localStorage.getItem('theme');
+              if (theme === 'light') {
+                document.documentElement.classList.add('light');
+              }
+            } catch(e) {}
+          })();
+        `,
           }}
         />
-      </head>
-      <body className="min-h-full flex flex-col">
         <Navbar />
         <ApolloWrapper>{children}</ApolloWrapper>
         <Footer />
