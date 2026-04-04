@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   return (
@@ -15,6 +16,7 @@ export default function Navbar() {
 
         {/* Links */}
         <div className="flex items-center gap-6 text-sm text-[var(--color-text-muted)]">
+          <ThemeToggle />
           <Link
             href="/articles"
             className="transition-colors hover:text-[var(--color-text-primary)]"

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Article } from "@/types/contentful";
+import TagBadge from "./TagBade";
 
 type Props = {
   article: Article;
@@ -15,22 +16,13 @@ export default function ArticleCard({ article }: Props) {
   return (
     <Link
       href={`/articles/${article.slug}`}
-      className="group flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 transition-all hover:border-[var(--color-primary)]/40 hover:bg-[var(--color-surface)]/80"
+      className="group flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 transition-all hover:border-[var(--color-primary)]/40 hover:bg-[var(--color-surface)]/80 shadow-sm hover:shadow-md"
     >
       {/* Tags */}
       {article.tags.items.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {article.tags.items.map((tag) => (
-            <span
-              key={tag.slug}
-              className="rounded-md px-2 py-0.5 text-xs font-medium"
-              style={{
-                color: tag.color ?? "var(--color-secondary)",
-                backgroundColor: `${tag.color ?? "var(--color-secondary)"}18`,
-              }}
-            >
-              {tag.name}
-            </span>
+            <TagBadge key={tag.slug} tag={tag} />
           ))}
         </div>
       )}

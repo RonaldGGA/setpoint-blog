@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ApolloWrapper } from "@/lib/ApolloWrapper";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const inter = localFont({
   src: "./fonts/InterVariable.woff2",
@@ -28,9 +29,26 @@ export default function RootLayout({
       lang="en"
       className={`${GeistSans.variable} ${GeistMono.variable} ${inter.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+        (function() {
+          try {
+            var theme = localStorage.getItem('theme');
+            if (theme === 'light') {
+              document.documentElement.classList.add('light');
+            }
+          } catch(e) {}
+        })();
+      `,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <Navbar />
         <ApolloWrapper>{children}</ApolloWrapper>
+        <Footer />
       </body>
     </html>
   );
