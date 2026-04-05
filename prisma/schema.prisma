@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================
+// BETTER AUTH TABLES (no tocar estructura)
+// ============================================
+
+model user {
+  id            String   @id
+  name          String
+  email         String   @unique
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+
+  // Nuestros campos extra
+  role Role @default(READER)
+
+  // Relaciones
+  sessions    session[]
+  accounts    account[]
+  comments    Comment[]
+  readingList ReadingListItem[]
+
+  @@map("user")
+}
+
+model session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  user      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+// ============================================
+// NUESTROS MODELOS
+// ============================================
+
+enum Role {
+  ADMIN
+  READER
+}
+
+model Comment {
+  id          String        @id @default(cuid())
+  content     String
+  status      CommentStatus @default(PENDING)
+  articleSlug String
+  parentId    String?
+  parent      Comment?      @relation("CommentReplies", fields: [parentId], references: [id])
+  replies     Comment[]     @relation("CommentReplies")
+  authorId    String
+  author      user          @relation(fields: [authorId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model ReadingListItem {
+  id          String   @id @default(cuid())
+  articleSlug String
+  userId      String
+  user        user     @relation(fields: [userId], references: [id])
+  savedAt     DateTime @default(now())
+
+  @@unique([userId, articleSlug])
+}
+
+model SyndicationLog {
+  id          String            @id @default(cuid())
+  articleSlug String
+  platform    String
+  status      SyndicationStatus
+  externalUrl String?
+  publishedAt DateTime?
+  createdAt   DateTime          @default(now())
+}
+
+enum SyndicationStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model NewsletterSubscriber {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  subscribedAt DateTime @default(now())
+}
