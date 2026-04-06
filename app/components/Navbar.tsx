@@ -1,11 +1,16 @@
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import { Bookmark } from "lucide-react";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
-export default function Navbar() {
+export default async function Navbar() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[var(--color-border)] bg-[var(--color-surface)]/80 backdrop-blur-md">
       <nav className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
-        {/* Logo */}
         <Link
           href="/"
           className="flex items-center gap-2 font-display text-lg font-semibold tracking-tight text-[var(--color-text-primary)] transition-opacity hover:opacity-80"
@@ -17,6 +22,14 @@ export default function Navbar() {
         {/* Links */}
         <div className="flex items-center gap-6 text-sm text-[var(--color-text-muted)]">
           <ThemeToggle />
+          {session && (
+            <Link
+              href="/reading-list"
+              className="...mismos estilos que tus otros links..."
+            >
+              <Bookmark size={16} />
+            </Link>
+          )}
           <Link
             href="/articles"
             className="transition-colors hover:text-[var(--color-text-primary)]"
@@ -29,6 +42,7 @@ export default function Navbar() {
           >
             Series
           </Link>
+
           <Link
             href="/about"
             className="transition-colors hover:text-[var(--color-text-primary)]"

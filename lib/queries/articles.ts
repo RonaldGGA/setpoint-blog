@@ -65,3 +65,28 @@ export const GET_ARTICLE_BY_SLUG = gql`
     }
   }
 `;
+
+export const GET_ARTICLES_BY_SLUGS = gql`
+  query GetArticlesBySlugs($slugs: [String!]!) {
+    articleCollection(where: { slug_in: $slugs }) {
+      items {
+        title
+        slug
+        excerpt
+        publishedAt
+        readingTime
+        coverImage {
+          url
+          title
+        }
+        tags: tagsCollection {
+          items {
+            name
+            slug
+            color
+          }
+        }
+      }
+    }
+  }
+`;

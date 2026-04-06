@@ -46,3 +46,7 @@ export interface GetArticlesQuery {
 export interface GetArticleBySlugQuery {
   articleCollection: ArticleCollection;
 }
+
+export interface GetArticlesBySlugsQuery {
+  articleCollection: ArticleCollection;
+}
