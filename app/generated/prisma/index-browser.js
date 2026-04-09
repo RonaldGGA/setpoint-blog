@@ -201,6 +201,12 @@ exports.Prisma.NewsletterSubscriberScalarFieldEnum = {
   subscribedAt: 'subscribedAt'
 };
 
+exports.Prisma.SyndicationSettingsScalarFieldEnum = {
+  articleSlug: 'articleSlug',
+  enabled: 'enabled',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -240,7 +246,8 @@ exports.Prisma.ModelName = {
   Comment: 'Comment',
   ReadingListItem: 'ReadingListItem',
   SyndicationLog: 'SyndicationLog',
-  NewsletterSubscriber: 'NewsletterSubscriber'
+  NewsletterSubscriber: 'NewsletterSubscriber',
+  SyndicationSettings: 'SyndicationSettings'
 };
 
 /**

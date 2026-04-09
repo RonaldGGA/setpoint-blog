@@ -53,6 +53,11 @@ export type SyndicationLog = $Result.DefaultSelection<Prisma.$SyndicationLogPayl
  * 
  */
 export type NewsletterSubscriber = $Result.DefaultSelection<Prisma.$NewsletterSubscriberPayload>
+/**
+ * Model SyndicationSettings
+ * 
+ */
+export type SyndicationSettings = $Result.DefaultSelection<Prisma.$SyndicationSettingsPayload>
 
 /**
  * Enums
@@ -297,6 +302,16 @@ export class PrismaClient<
     * ```
     */
   get newsletterSubscriber(): Prisma.NewsletterSubscriberDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.syndicationSettings`: Exposes CRUD operations for the **SyndicationSettings** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SyndicationSettings
+    * const syndicationSettings = await prisma.syndicationSettings.findMany()
+    * ```
+    */
+  get syndicationSettings(): Prisma.SyndicationSettingsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -738,7 +753,8 @@ export namespace Prisma {
     Comment: 'Comment',
     ReadingListItem: 'ReadingListItem',
     SyndicationLog: 'SyndicationLog',
-    NewsletterSubscriber: 'NewsletterSubscriber'
+    NewsletterSubscriber: 'NewsletterSubscriber',
+    SyndicationSettings: 'SyndicationSettings'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -754,7 +770,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "account" | "verification" | "comment" | "readingListItem" | "syndicationLog" | "newsletterSubscriber"
+      modelProps: "user" | "session" | "account" | "verification" | "comment" | "readingListItem" | "syndicationLog" | "newsletterSubscriber" | "syndicationSettings"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1350,6 +1366,80 @@ export namespace Prisma {
           }
         }
       }
+      SyndicationSettings: {
+        payload: Prisma.$SyndicationSettingsPayload<ExtArgs>
+        fields: Prisma.SyndicationSettingsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SyndicationSettingsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyndicationSettingsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SyndicationSettingsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyndicationSettingsPayload>
+          }
+          findFirst: {
+            args: Prisma.SyndicationSettingsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyndicationSettingsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SyndicationSettingsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyndicationSettingsPayload>
+          }
+          findMany: {
+            args: Prisma.SyndicationSettingsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyndicationSettingsPayload>[]
+          }
+          create: {
+            args: Prisma.SyndicationSettingsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyndicationSettingsPayload>
+          }
+          createMany: {
+            args: Prisma.SyndicationSettingsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SyndicationSettingsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyndicationSettingsPayload>[]
+          }
+          delete: {
+            args: Prisma.SyndicationSettingsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyndicationSettingsPayload>
+          }
+          update: {
+            args: Prisma.SyndicationSettingsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyndicationSettingsPayload>
+          }
+          deleteMany: {
+            args: Prisma.SyndicationSettingsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SyndicationSettingsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SyndicationSettingsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyndicationSettingsPayload>[]
+          }
+          upsert: {
+            args: Prisma.SyndicationSettingsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyndicationSettingsPayload>
+          }
+          aggregate: {
+            args: Prisma.SyndicationSettingsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSyndicationSettings>
+          }
+          groupBy: {
+            args: Prisma.SyndicationSettingsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SyndicationSettingsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SyndicationSettingsCountArgs<ExtArgs>
+            result: $Utils.Optional<SyndicationSettingsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1466,6 +1556,7 @@ export namespace Prisma {
     readingListItem?: ReadingListItemOmit
     syndicationLog?: SyndicationLogOmit
     newsletterSubscriber?: NewsletterSubscriberOmit
+    syndicationSettings?: SyndicationSettingsOmit
   }
 
   /* Types for Logging */
@@ -10324,6 +10415,980 @@ export namespace Prisma {
 
 
   /**
+   * Model SyndicationSettings
+   */
+
+  export type AggregateSyndicationSettings = {
+    _count: SyndicationSettingsCountAggregateOutputType | null
+    _min: SyndicationSettingsMinAggregateOutputType | null
+    _max: SyndicationSettingsMaxAggregateOutputType | null
+  }
+
+  export type SyndicationSettingsMinAggregateOutputType = {
+    articleSlug: string | null
+    enabled: boolean | null
+    updatedAt: Date | null
+  }
+
+  export type SyndicationSettingsMaxAggregateOutputType = {
+    articleSlug: string | null
+    enabled: boolean | null
+    updatedAt: Date | null
+  }
+
+  export type SyndicationSettingsCountAggregateOutputType = {
+    articleSlug: number
+    enabled: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SyndicationSettingsMinAggregateInputType = {
+    articleSlug?: true
+    enabled?: true
+    updatedAt?: true
+  }
+
+  export type SyndicationSettingsMaxAggregateInputType = {
+    articleSlug?: true
+    enabled?: true
+    updatedAt?: true
+  }
+
+  export type SyndicationSettingsCountAggregateInputType = {
+    articleSlug?: true
+    enabled?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SyndicationSettingsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SyndicationSettings to aggregate.
+     */
+    where?: SyndicationSettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SyndicationSettings to fetch.
+     */
+    orderBy?: SyndicationSettingsOrderByWithRelationInput | SyndicationSettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SyndicationSettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SyndicationSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SyndicationSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SyndicationSettings
+    **/
+    _count?: true | SyndicationSettingsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SyndicationSettingsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SyndicationSettingsMaxAggregateInputType
+  }
+
+  export type GetSyndicationSettingsAggregateType<T extends SyndicationSettingsAggregateArgs> = {
+        [P in keyof T & keyof AggregateSyndicationSettings]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSyndicationSettings[P]>
+      : GetScalarType<T[P], AggregateSyndicationSettings[P]>
+  }
+
+
+
+
+  export type SyndicationSettingsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SyndicationSettingsWhereInput
+    orderBy?: SyndicationSettingsOrderByWithAggregationInput | SyndicationSettingsOrderByWithAggregationInput[]
+    by: SyndicationSettingsScalarFieldEnum[] | SyndicationSettingsScalarFieldEnum
+    having?: SyndicationSettingsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SyndicationSettingsCountAggregateInputType | true
+    _min?: SyndicationSettingsMinAggregateInputType
+    _max?: SyndicationSettingsMaxAggregateInputType
+  }
+
+  export type SyndicationSettingsGroupByOutputType = {
+    articleSlug: string
+    enabled: boolean
+    updatedAt: Date
+    _count: SyndicationSettingsCountAggregateOutputType | null
+    _min: SyndicationSettingsMinAggregateOutputType | null
+    _max: SyndicationSettingsMaxAggregateOutputType | null
+  }
+
+  type GetSyndicationSettingsGroupByPayload<T extends SyndicationSettingsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SyndicationSettingsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SyndicationSettingsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SyndicationSettingsGroupByOutputType[P]>
+            : GetScalarType<T[P], SyndicationSettingsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SyndicationSettingsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    articleSlug?: boolean
+    enabled?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["syndicationSettings"]>
+
+  export type SyndicationSettingsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    articleSlug?: boolean
+    enabled?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["syndicationSettings"]>
+
+  export type SyndicationSettingsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    articleSlug?: boolean
+    enabled?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["syndicationSettings"]>
+
+  export type SyndicationSettingsSelectScalar = {
+    articleSlug?: boolean
+    enabled?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SyndicationSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"articleSlug" | "enabled" | "updatedAt", ExtArgs["result"]["syndicationSettings"]>
+
+  export type $SyndicationSettingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SyndicationSettings"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      articleSlug: string
+      enabled: boolean
+      updatedAt: Date
+    }, ExtArgs["result"]["syndicationSettings"]>
+    composites: {}
+  }
+
+  type SyndicationSettingsGetPayload<S extends boolean | null | undefined | SyndicationSettingsDefaultArgs> = $Result.GetResult<Prisma.$SyndicationSettingsPayload, S>
+
+  type SyndicationSettingsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SyndicationSettingsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SyndicationSettingsCountAggregateInputType | true
+    }
+
+  export interface SyndicationSettingsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SyndicationSettings'], meta: { name: 'SyndicationSettings' } }
+    /**
+     * Find zero or one SyndicationSettings that matches the filter.
+     * @param {SyndicationSettingsFindUniqueArgs} args - Arguments to find a SyndicationSettings
+     * @example
+     * // Get one SyndicationSettings
+     * const syndicationSettings = await prisma.syndicationSettings.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SyndicationSettingsFindUniqueArgs>(args: SelectSubset<T, SyndicationSettingsFindUniqueArgs<ExtArgs>>): Prisma__SyndicationSettingsClient<$Result.GetResult<Prisma.$SyndicationSettingsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SyndicationSettings that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SyndicationSettingsFindUniqueOrThrowArgs} args - Arguments to find a SyndicationSettings
+     * @example
+     * // Get one SyndicationSettings
+     * const syndicationSettings = await prisma.syndicationSettings.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SyndicationSettingsFindUniqueOrThrowArgs>(args: SelectSubset<T, SyndicationSettingsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SyndicationSettingsClient<$Result.GetResult<Prisma.$SyndicationSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SyndicationSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyndicationSettingsFindFirstArgs} args - Arguments to find a SyndicationSettings
+     * @example
+     * // Get one SyndicationSettings
+     * const syndicationSettings = await prisma.syndicationSettings.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SyndicationSettingsFindFirstArgs>(args?: SelectSubset<T, SyndicationSettingsFindFirstArgs<ExtArgs>>): Prisma__SyndicationSettingsClient<$Result.GetResult<Prisma.$SyndicationSettingsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SyndicationSettings that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyndicationSettingsFindFirstOrThrowArgs} args - Arguments to find a SyndicationSettings
+     * @example
+     * // Get one SyndicationSettings
+     * const syndicationSettings = await prisma.syndicationSettings.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SyndicationSettingsFindFirstOrThrowArgs>(args?: SelectSubset<T, SyndicationSettingsFindFirstOrThrowArgs<ExtArgs>>): Prisma__SyndicationSettingsClient<$Result.GetResult<Prisma.$SyndicationSettingsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SyndicationSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyndicationSettingsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SyndicationSettings
+     * const syndicationSettings = await prisma.syndicationSettings.findMany()
+     * 
+     * // Get first 10 SyndicationSettings
+     * const syndicationSettings = await prisma.syndicationSettings.findMany({ take: 10 })
+     * 
+     * // Only select the `articleSlug`
+     * const syndicationSettingsWithArticleSlugOnly = await prisma.syndicationSettings.findMany({ select: { articleSlug: true } })
+     * 
+     */
+    findMany<T extends SyndicationSettingsFindManyArgs>(args?: SelectSubset<T, SyndicationSettingsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SyndicationSettingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SyndicationSettings.
+     * @param {SyndicationSettingsCreateArgs} args - Arguments to create a SyndicationSettings.
+     * @example
+     * // Create one SyndicationSettings
+     * const SyndicationSettings = await prisma.syndicationSettings.create({
+     *   data: {
+     *     // ... data to create a SyndicationSettings
+     *   }
+     * })
+     * 
+     */
+    create<T extends SyndicationSettingsCreateArgs>(args: SelectSubset<T, SyndicationSettingsCreateArgs<ExtArgs>>): Prisma__SyndicationSettingsClient<$Result.GetResult<Prisma.$SyndicationSettingsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SyndicationSettings.
+     * @param {SyndicationSettingsCreateManyArgs} args - Arguments to create many SyndicationSettings.
+     * @example
+     * // Create many SyndicationSettings
+     * const syndicationSettings = await prisma.syndicationSettings.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SyndicationSettingsCreateManyArgs>(args?: SelectSubset<T, SyndicationSettingsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SyndicationSettings and returns the data saved in the database.
+     * @param {SyndicationSettingsCreateManyAndReturnArgs} args - Arguments to create many SyndicationSettings.
+     * @example
+     * // Create many SyndicationSettings
+     * const syndicationSettings = await prisma.syndicationSettings.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SyndicationSettings and only return the `articleSlug`
+     * const syndicationSettingsWithArticleSlugOnly = await prisma.syndicationSettings.createManyAndReturn({
+     *   select: { articleSlug: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SyndicationSettingsCreateManyAndReturnArgs>(args?: SelectSubset<T, SyndicationSettingsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SyndicationSettingsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SyndicationSettings.
+     * @param {SyndicationSettingsDeleteArgs} args - Arguments to delete one SyndicationSettings.
+     * @example
+     * // Delete one SyndicationSettings
+     * const SyndicationSettings = await prisma.syndicationSettings.delete({
+     *   where: {
+     *     // ... filter to delete one SyndicationSettings
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SyndicationSettingsDeleteArgs>(args: SelectSubset<T, SyndicationSettingsDeleteArgs<ExtArgs>>): Prisma__SyndicationSettingsClient<$Result.GetResult<Prisma.$SyndicationSettingsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SyndicationSettings.
+     * @param {SyndicationSettingsUpdateArgs} args - Arguments to update one SyndicationSettings.
+     * @example
+     * // Update one SyndicationSettings
+     * const syndicationSettings = await prisma.syndicationSettings.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SyndicationSettingsUpdateArgs>(args: SelectSubset<T, SyndicationSettingsUpdateArgs<ExtArgs>>): Prisma__SyndicationSettingsClient<$Result.GetResult<Prisma.$SyndicationSettingsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SyndicationSettings.
+     * @param {SyndicationSettingsDeleteManyArgs} args - Arguments to filter SyndicationSettings to delete.
+     * @example
+     * // Delete a few SyndicationSettings
+     * const { count } = await prisma.syndicationSettings.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SyndicationSettingsDeleteManyArgs>(args?: SelectSubset<T, SyndicationSettingsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SyndicationSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyndicationSettingsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SyndicationSettings
+     * const syndicationSettings = await prisma.syndicationSettings.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SyndicationSettingsUpdateManyArgs>(args: SelectSubset<T, SyndicationSettingsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SyndicationSettings and returns the data updated in the database.
+     * @param {SyndicationSettingsUpdateManyAndReturnArgs} args - Arguments to update many SyndicationSettings.
+     * @example
+     * // Update many SyndicationSettings
+     * const syndicationSettings = await prisma.syndicationSettings.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SyndicationSettings and only return the `articleSlug`
+     * const syndicationSettingsWithArticleSlugOnly = await prisma.syndicationSettings.updateManyAndReturn({
+     *   select: { articleSlug: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SyndicationSettingsUpdateManyAndReturnArgs>(args: SelectSubset<T, SyndicationSettingsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SyndicationSettingsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SyndicationSettings.
+     * @param {SyndicationSettingsUpsertArgs} args - Arguments to update or create a SyndicationSettings.
+     * @example
+     * // Update or create a SyndicationSettings
+     * const syndicationSettings = await prisma.syndicationSettings.upsert({
+     *   create: {
+     *     // ... data to create a SyndicationSettings
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SyndicationSettings we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SyndicationSettingsUpsertArgs>(args: SelectSubset<T, SyndicationSettingsUpsertArgs<ExtArgs>>): Prisma__SyndicationSettingsClient<$Result.GetResult<Prisma.$SyndicationSettingsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SyndicationSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyndicationSettingsCountArgs} args - Arguments to filter SyndicationSettings to count.
+     * @example
+     * // Count the number of SyndicationSettings
+     * const count = await prisma.syndicationSettings.count({
+     *   where: {
+     *     // ... the filter for the SyndicationSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends SyndicationSettingsCountArgs>(
+      args?: Subset<T, SyndicationSettingsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SyndicationSettingsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SyndicationSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyndicationSettingsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SyndicationSettingsAggregateArgs>(args: Subset<T, SyndicationSettingsAggregateArgs>): Prisma.PrismaPromise<GetSyndicationSettingsAggregateType<T>>
+
+    /**
+     * Group by SyndicationSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyndicationSettingsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SyndicationSettingsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SyndicationSettingsGroupByArgs['orderBy'] }
+        : { orderBy?: SyndicationSettingsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SyndicationSettingsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSyndicationSettingsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SyndicationSettings model
+   */
+  readonly fields: SyndicationSettingsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SyndicationSettings.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SyndicationSettingsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SyndicationSettings model
+   */
+  interface SyndicationSettingsFieldRefs {
+    readonly articleSlug: FieldRef<"SyndicationSettings", 'String'>
+    readonly enabled: FieldRef<"SyndicationSettings", 'Boolean'>
+    readonly updatedAt: FieldRef<"SyndicationSettings", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SyndicationSettings findUnique
+   */
+  export type SyndicationSettingsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyndicationSettings
+     */
+    select?: SyndicationSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SyndicationSettings
+     */
+    omit?: SyndicationSettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which SyndicationSettings to fetch.
+     */
+    where: SyndicationSettingsWhereUniqueInput
+  }
+
+  /**
+   * SyndicationSettings findUniqueOrThrow
+   */
+  export type SyndicationSettingsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyndicationSettings
+     */
+    select?: SyndicationSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SyndicationSettings
+     */
+    omit?: SyndicationSettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which SyndicationSettings to fetch.
+     */
+    where: SyndicationSettingsWhereUniqueInput
+  }
+
+  /**
+   * SyndicationSettings findFirst
+   */
+  export type SyndicationSettingsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyndicationSettings
+     */
+    select?: SyndicationSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SyndicationSettings
+     */
+    omit?: SyndicationSettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which SyndicationSettings to fetch.
+     */
+    where?: SyndicationSettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SyndicationSettings to fetch.
+     */
+    orderBy?: SyndicationSettingsOrderByWithRelationInput | SyndicationSettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SyndicationSettings.
+     */
+    cursor?: SyndicationSettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SyndicationSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SyndicationSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SyndicationSettings.
+     */
+    distinct?: SyndicationSettingsScalarFieldEnum | SyndicationSettingsScalarFieldEnum[]
+  }
+
+  /**
+   * SyndicationSettings findFirstOrThrow
+   */
+  export type SyndicationSettingsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyndicationSettings
+     */
+    select?: SyndicationSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SyndicationSettings
+     */
+    omit?: SyndicationSettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which SyndicationSettings to fetch.
+     */
+    where?: SyndicationSettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SyndicationSettings to fetch.
+     */
+    orderBy?: SyndicationSettingsOrderByWithRelationInput | SyndicationSettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SyndicationSettings.
+     */
+    cursor?: SyndicationSettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SyndicationSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SyndicationSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SyndicationSettings.
+     */
+    distinct?: SyndicationSettingsScalarFieldEnum | SyndicationSettingsScalarFieldEnum[]
+  }
+
+  /**
+   * SyndicationSettings findMany
+   */
+  export type SyndicationSettingsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyndicationSettings
+     */
+    select?: SyndicationSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SyndicationSettings
+     */
+    omit?: SyndicationSettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which SyndicationSettings to fetch.
+     */
+    where?: SyndicationSettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SyndicationSettings to fetch.
+     */
+    orderBy?: SyndicationSettingsOrderByWithRelationInput | SyndicationSettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SyndicationSettings.
+     */
+    cursor?: SyndicationSettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SyndicationSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SyndicationSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SyndicationSettings.
+     */
+    distinct?: SyndicationSettingsScalarFieldEnum | SyndicationSettingsScalarFieldEnum[]
+  }
+
+  /**
+   * SyndicationSettings create
+   */
+  export type SyndicationSettingsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyndicationSettings
+     */
+    select?: SyndicationSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SyndicationSettings
+     */
+    omit?: SyndicationSettingsOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SyndicationSettings.
+     */
+    data: XOR<SyndicationSettingsCreateInput, SyndicationSettingsUncheckedCreateInput>
+  }
+
+  /**
+   * SyndicationSettings createMany
+   */
+  export type SyndicationSettingsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SyndicationSettings.
+     */
+    data: SyndicationSettingsCreateManyInput | SyndicationSettingsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SyndicationSettings createManyAndReturn
+   */
+  export type SyndicationSettingsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyndicationSettings
+     */
+    select?: SyndicationSettingsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SyndicationSettings
+     */
+    omit?: SyndicationSettingsOmit<ExtArgs> | null
+    /**
+     * The data used to create many SyndicationSettings.
+     */
+    data: SyndicationSettingsCreateManyInput | SyndicationSettingsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SyndicationSettings update
+   */
+  export type SyndicationSettingsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyndicationSettings
+     */
+    select?: SyndicationSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SyndicationSettings
+     */
+    omit?: SyndicationSettingsOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SyndicationSettings.
+     */
+    data: XOR<SyndicationSettingsUpdateInput, SyndicationSettingsUncheckedUpdateInput>
+    /**
+     * Choose, which SyndicationSettings to update.
+     */
+    where: SyndicationSettingsWhereUniqueInput
+  }
+
+  /**
+   * SyndicationSettings updateMany
+   */
+  export type SyndicationSettingsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SyndicationSettings.
+     */
+    data: XOR<SyndicationSettingsUpdateManyMutationInput, SyndicationSettingsUncheckedUpdateManyInput>
+    /**
+     * Filter which SyndicationSettings to update
+     */
+    where?: SyndicationSettingsWhereInput
+    /**
+     * Limit how many SyndicationSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SyndicationSettings updateManyAndReturn
+   */
+  export type SyndicationSettingsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyndicationSettings
+     */
+    select?: SyndicationSettingsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SyndicationSettings
+     */
+    omit?: SyndicationSettingsOmit<ExtArgs> | null
+    /**
+     * The data used to update SyndicationSettings.
+     */
+    data: XOR<SyndicationSettingsUpdateManyMutationInput, SyndicationSettingsUncheckedUpdateManyInput>
+    /**
+     * Filter which SyndicationSettings to update
+     */
+    where?: SyndicationSettingsWhereInput
+    /**
+     * Limit how many SyndicationSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SyndicationSettings upsert
+   */
+  export type SyndicationSettingsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyndicationSettings
+     */
+    select?: SyndicationSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SyndicationSettings
+     */
+    omit?: SyndicationSettingsOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SyndicationSettings to update in case it exists.
+     */
+    where: SyndicationSettingsWhereUniqueInput
+    /**
+     * In case the SyndicationSettings found by the `where` argument doesn't exist, create a new SyndicationSettings with this data.
+     */
+    create: XOR<SyndicationSettingsCreateInput, SyndicationSettingsUncheckedCreateInput>
+    /**
+     * In case the SyndicationSettings was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SyndicationSettingsUpdateInput, SyndicationSettingsUncheckedUpdateInput>
+  }
+
+  /**
+   * SyndicationSettings delete
+   */
+  export type SyndicationSettingsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyndicationSettings
+     */
+    select?: SyndicationSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SyndicationSettings
+     */
+    omit?: SyndicationSettingsOmit<ExtArgs> | null
+    /**
+     * Filter which SyndicationSettings to delete.
+     */
+    where: SyndicationSettingsWhereUniqueInput
+  }
+
+  /**
+   * SyndicationSettings deleteMany
+   */
+  export type SyndicationSettingsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SyndicationSettings to delete
+     */
+    where?: SyndicationSettingsWhereInput
+    /**
+     * Limit how many SyndicationSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SyndicationSettings without action
+   */
+  export type SyndicationSettingsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyndicationSettings
+     */
+    select?: SyndicationSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SyndicationSettings
+     */
+    omit?: SyndicationSettingsOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -10440,6 +11505,15 @@ export namespace Prisma {
   };
 
   export type NewsletterSubscriberScalarFieldEnum = (typeof NewsletterSubscriberScalarFieldEnum)[keyof typeof NewsletterSubscriberScalarFieldEnum]
+
+
+  export const SyndicationSettingsScalarFieldEnum: {
+    articleSlug: 'articleSlug',
+    enabled: 'enabled',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SyndicationSettingsScalarFieldEnum = (typeof SyndicationSettingsScalarFieldEnum)[keyof typeof SyndicationSettingsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11097,6 +12171,48 @@ export namespace Prisma {
     subscribedAt?: DateTimeWithAggregatesFilter<"NewsletterSubscriber"> | Date | string
   }
 
+  export type SyndicationSettingsWhereInput = {
+    AND?: SyndicationSettingsWhereInput | SyndicationSettingsWhereInput[]
+    OR?: SyndicationSettingsWhereInput[]
+    NOT?: SyndicationSettingsWhereInput | SyndicationSettingsWhereInput[]
+    articleSlug?: StringFilter<"SyndicationSettings"> | string
+    enabled?: BoolFilter<"SyndicationSettings"> | boolean
+    updatedAt?: DateTimeFilter<"SyndicationSettings"> | Date | string
+  }
+
+  export type SyndicationSettingsOrderByWithRelationInput = {
+    articleSlug?: SortOrder
+    enabled?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SyndicationSettingsWhereUniqueInput = Prisma.AtLeast<{
+    articleSlug?: string
+    AND?: SyndicationSettingsWhereInput | SyndicationSettingsWhereInput[]
+    OR?: SyndicationSettingsWhereInput[]
+    NOT?: SyndicationSettingsWhereInput | SyndicationSettingsWhereInput[]
+    enabled?: BoolFilter<"SyndicationSettings"> | boolean
+    updatedAt?: DateTimeFilter<"SyndicationSettings"> | Date | string
+  }, "articleSlug">
+
+  export type SyndicationSettingsOrderByWithAggregationInput = {
+    articleSlug?: SortOrder
+    enabled?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SyndicationSettingsCountOrderByAggregateInput
+    _max?: SyndicationSettingsMaxOrderByAggregateInput
+    _min?: SyndicationSettingsMinOrderByAggregateInput
+  }
+
+  export type SyndicationSettingsScalarWhereWithAggregatesInput = {
+    AND?: SyndicationSettingsScalarWhereWithAggregatesInput | SyndicationSettingsScalarWhereWithAggregatesInput[]
+    OR?: SyndicationSettingsScalarWhereWithAggregatesInput[]
+    NOT?: SyndicationSettingsScalarWhereWithAggregatesInput | SyndicationSettingsScalarWhereWithAggregatesInput[]
+    articleSlug?: StringWithAggregatesFilter<"SyndicationSettings"> | string
+    enabled?: BoolWithAggregatesFilter<"SyndicationSettings"> | boolean
+    updatedAt?: DateTimeWithAggregatesFilter<"SyndicationSettings"> | Date | string
+  }
+
   export type userCreateInput = {
     id: string
     name: string
@@ -11679,6 +12795,48 @@ export namespace Prisma {
     subscribedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SyndicationSettingsCreateInput = {
+    articleSlug: string
+    enabled?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type SyndicationSettingsUncheckedCreateInput = {
+    articleSlug: string
+    enabled?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type SyndicationSettingsUpdateInput = {
+    articleSlug?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SyndicationSettingsUncheckedUpdateInput = {
+    articleSlug?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SyndicationSettingsCreateManyInput = {
+    articleSlug: string
+    enabled?: boolean
+    updatedAt?: Date | string
+  }
+
+  export type SyndicationSettingsUpdateManyMutationInput = {
+    articleSlug?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SyndicationSettingsUncheckedUpdateManyInput = {
+    articleSlug?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -12160,6 +13318,24 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     subscribedAt?: SortOrder
+  }
+
+  export type SyndicationSettingsCountOrderByAggregateInput = {
+    articleSlug?: SortOrder
+    enabled?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SyndicationSettingsMaxOrderByAggregateInput = {
+    articleSlug?: SortOrder
+    enabled?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SyndicationSettingsMinOrderByAggregateInput = {
+    articleSlug?: SortOrder
+    enabled?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type sessionCreateNestedManyWithoutUserInput = {
