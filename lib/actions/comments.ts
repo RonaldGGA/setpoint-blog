@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { CommentWithAuthor } from "@/types/comments";
 
 type CreateCommentInput = {
   articleSlug: string;
@@ -59,6 +60,91 @@ export async function createComment(
   });
 
   revalidatePath(`/articles/${input.articleSlug}`);
+  revalidatePath("/admin/comments");
+
+  return { success: true };
+}
+
+export async function getApprovedComments(
+  articleSlug: string
+): Promise<CommentWithAuthor[]> {
+  const comments = await prisma.comment.findMany({
+    where: {
+      articleSlug,
+      status: "APPROVED",
+      parentId: null,
+    },
+    orderBy: { createdAt: "asc" },
+    include: {
+      author: {
+        select: { name: true, image: true },
+      },
+      replies: {
+        where: { status: "APPROVED" },
+        orderBy: { createdAt: "asc" },
+        include: {
+          author: {
+            select: { name: true, image: true },
+          },
+        },
+      },
+    },
+  });
+
+  return comments.map((comment) => ({
+    id: comment.id,
+    content: comment.content,
+    createdAt: comment.createdAt,
+    author: comment.author,
+    replies: comment.replies.map((reply) => ({
+      id: reply.id,
+      content: reply.content,
+      createdAt: reply.createdAt,
+      author: reply.author,
+      replies: [],
+    })),
+  }));
+}
+
+import { PendingComment } from "@/types/comments";
+
+export async function getPendingComments(): Promise<PendingComment[]> {
+  const comments = await prisma.comment.findMany({
+    where: { status: "PENDING" },
+    orderBy: { createdAt: "asc" },
+    include: {
+      author: {
+        select: { name: true, image: true },
+      },
+    },
+  });
+
+  return comments.map((c) => ({
+    id: c.id,
+    content: c.content,
+    createdAt: c.createdAt,
+    articleSlug: c.articleSlug,
+    author: c.author,
+  }));
+}
+
+export async function moderateComment(
+  commentId: string,
+  action: "APPROVED" | "REJECTED"
+): Promise<ActionResult> {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user || session.user.role !== "ADMIN") {
+    return { success: false, error: "Unauthorized." };
+  }
+
+  await prisma.comment.update({
+    where: { id: commentId },
+    data: { status: action },
+  });
+
   revalidatePath("/admin/comments");
 
   return { success: true };

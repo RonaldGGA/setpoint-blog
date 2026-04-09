@@ -50,3 +50,58 @@ export interface GetArticleBySlugQuery {
 export interface GetArticlesBySlugsQuery {
   articleCollection: ArticleCollection;
 }
+
+export type GetFeaturedArticleQuery = {
+  articleCollection: {
+    items: Article[];
+  };
+};
+
+export type GetLatestArticlesQuery = {
+  articleCollection: {
+    items: Article[];
+  };
+};
+
+export type GetAllArticlesQuery = {
+  articleCollection: {
+    items: Article[];
+  };
+};
+
+export type SeriesWithCount = {
+  title: string;
+  slug: string;
+  description: string | null;
+  coverImage: CoverImage | null;
+  linkedFrom: {
+    articleCollection: {
+      total: number;
+    };
+  };
+};
+
+export type GetAllSeriesQuery = {
+  seriesCollection: {
+    items: SeriesWithCount[];
+  };
+};
+
+export type SeriesDetail = {
+  title: string;
+  slug: string;
+  description: string | null;
+  coverImage: CoverImage | null;
+  linkedFrom: {
+    articleCollection: {
+      total: number;
+      items: Article[];
+    };
+  };
+};
+
+export type GetSeriesBySlugQuery = {
+  seriesCollection: {
+    items: SeriesDetail[];
+  };
+};

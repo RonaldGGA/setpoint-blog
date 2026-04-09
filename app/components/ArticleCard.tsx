@@ -26,12 +26,12 @@ export default function ArticleCard({
   const accentColor = article.tags.items[0]?.color ?? "#F59E0B";
 
   return (
-    <motion.div
+    <div
       className="group relative flex flex-col rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden transition-all duration-300 hover:border-[var(--color-primary)]/40 hover:-translate-y-0.5 shadow-sm hover:shadow-lg hover:shadow-black/20"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: index * 0.08, ease: "easeOut" }}
+      style={{
+        animation: "fadeInUp 0.4s ease-out both",
+        animationDelay: `${index * 0.08}s`,
+      }}
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -85,6 +85,6 @@ export default function ArticleCard({
           initialSaved={initialSaved}
         />
       </div>
-    </motion.div>
+    </div>
   );
 }

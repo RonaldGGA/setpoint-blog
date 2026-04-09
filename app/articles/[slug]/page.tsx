@@ -1,3 +1,4 @@
+import CommentSection from "@/app/components/CommentSection";
 import ReadingProgress from "@/app/components/ReadingProgress";
 import TagBadge from "@/app/components/TagBade";
 import { getClient } from "@/lib/ApolloClient";
@@ -96,6 +97,7 @@ export default async function ArticlePage({ params }: Props) {
           {documentToReactComponents(article.body.json)}
         </div>
       )}
+      <CommentSection articleSlug={slug} />
     </main>
   );
 }
