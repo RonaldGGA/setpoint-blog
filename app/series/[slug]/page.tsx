@@ -5,6 +5,7 @@ import ArticleCard from "@/app/components/ArticleCard";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { BookMarked } from "lucide-react";
+import { withCache } from "@/lib/cache";
 
 export const revalidate = 300;
 
@@ -15,10 +16,12 @@ export default async function SeriesDetailPage({
 }) {
   const { slug } = await params;
 
-  const { data } = await getClient().query<GetSeriesBySlugQuery>({
-    query: GET_SERIES_BY_SLUG,
-    variables: { slug },
-  });
+  const { data } = await withCache(`series:${slug}`, 300, () =>
+    getClient().query<GetSeriesBySlugQuery>({
+      query: GET_SERIES_BY_SLUG,
+      variables: { slug },
+    })
+  );
 
   const series: SeriesDetail | undefined = data?.seriesCollection?.items[0];
 

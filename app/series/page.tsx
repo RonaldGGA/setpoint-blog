@@ -3,13 +3,14 @@ import { GET_ALL_SERIES } from "@/lib/queries/articles";
 import { GetAllSeriesQuery, SeriesWithCount } from "@/types/contentful";
 import { BookMarked } from "lucide-react";
 import SeriesCard from "../components/SeriesCard";
+import { withCache } from "@/lib/cache";
 
 export const revalidate = 300;
 
 export default async function SeriesPage() {
-  const { data } = await getClient().query<GetAllSeriesQuery>({
-    query: GET_ALL_SERIES,
-  });
+  const { data } = await withCache("series:all", 300, () =>
+    getClient().query<GetAllSeriesQuery>({ query: GET_ALL_SERIES })
+  );
 
   const series: SeriesWithCount[] = data?.seriesCollection?.items ?? [];
 

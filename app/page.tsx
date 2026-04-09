@@ -11,13 +11,20 @@ import {
 import ArticleCard from "./components/ArticleCard";
 import FeaturedCard from "./components/FeaturedCard";
 import HeroSection from "./components/HeroSection";
+import { withCache } from "@/lib/cache";
 
 export const revalidate = 60;
 
 export default async function Home() {
   const [featuredRes, latestRes] = await Promise.all([
-    getClient().query<GetFeaturedArticleQuery>({ query: GET_FEATURED_ARTICLE }),
-    getClient().query<GetLatestArticlesQuery>({ query: GET_LATEST_ARTICLES }),
+    withCache("home:featured", 60, () =>
+      getClient().query<GetFeaturedArticleQuery>({
+        query: GET_FEATURED_ARTICLE,
+      })
+    ),
+    withCache("home:latest", 60, () =>
+      getClient().query<GetLatestArticlesQuery>({ query: GET_LATEST_ARTICLES })
+    ),
   ]);
 
   const featured: Article | undefined =

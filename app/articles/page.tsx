@@ -3,13 +3,14 @@ import { GET_ALL_ARTICLES } from "@/lib/queries/articles";
 import { GetAllArticlesQuery, Article } from "@/types/contentful";
 import ArticleCard from "@/app/components/ArticleCard";
 import { BookOpen } from "lucide-react";
+import { withCache } from "@/lib/cache";
 
 export const revalidate = 60;
 
 export default async function ArticlesPage() {
-  const { data } = await getClient().query<GetAllArticlesQuery>({
-    query: GET_ALL_ARTICLES,
-  });
+  const { data } = await withCache("articles:all", 60, () =>
+    getClient().query<GetAllArticlesQuery>({ query: GET_ALL_ARTICLES })
+  );
 
   const articles: Article[] = data?.articleCollection?.items ?? [];
 

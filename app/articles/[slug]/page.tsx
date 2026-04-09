@@ -2,6 +2,7 @@ import CommentSection from "@/app/components/CommentSection";
 import ReadingProgress from "@/app/components/ReadingProgress";
 import TagBadge from "@/app/components/TagBade";
 import { getClient } from "@/lib/ApolloClient";
+import { withCache } from "@/lib/cache";
 import { GET_ARTICLE_BY_SLUG } from "@/lib/queries/articles";
 import { GetArticleBySlugQuery } from "@/types/contentful";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
@@ -42,10 +43,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
 
-  const { data } = await getClient().query<GetArticleBySlugQuery>({
-    query: GET_ARTICLE_BY_SLUG,
-    variables: { slug },
-  });
+  const { data } = await withCache(`article:${slug}`, 300, () =>
+    getClient().query<GetArticleBySlugQuery>({
+      query: GET_ARTICLE_BY_SLUG,
+      variables: { slug },
+    })
+  );
 
   const article = data?.articleCollection?.items[0];
 
