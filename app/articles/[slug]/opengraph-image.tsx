@@ -9,12 +9,12 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const fontRegularData = fetch(
-  new URL("./Inter-Regular.ttf", import.meta.url)
+  "https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.ttf"
 ).then((res) => res.arrayBuffer());
 
-const fontBoldData = fetch(new URL("./Inter-Bold.ttf", import.meta.url)).then(
-  (res) => res.arrayBuffer()
-);
+const fontBoldData = fetch(
+  "https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-700-normal.ttf"
+).then((res) => res.arrayBuffer());
 
 export default async function ArticleOGImage({
   params,

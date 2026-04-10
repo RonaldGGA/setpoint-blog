@@ -5,6 +5,15 @@ import { withCache } from "@/lib/cache";
 
 const BASE_URL = "https://setpoint-blog.vercel.app";
 
+interface GetAllSlugsData {
+  articleCollection: {
+    items: Array<{ slug: string; publishedAt: string }>;
+  };
+  seriesCollection: {
+    items: Array<{ slug: string }>;
+  };
+}
+
 // Minimal query — only slug and publishedAt, no body needed
 const GET_ALL_SLUGS = gql`
   query GetAllSlugs {
@@ -24,7 +33,9 @@ const GET_ALL_SLUGS = gql`
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const data = await withCache("sitemap:all", 300, async () => {
-    const { data } = await getClient().query({ query: GET_ALL_SLUGS });
+    const { data } = await getClient().query<GetAllSlugsData>({
+      query: GET_ALL_SLUGS,
+    });
     return data;
   });
 
