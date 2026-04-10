@@ -1,60 +1,49 @@
 import Link from "next/link";
-import ThemeToggle from "./ThemeToggle";
-import { Bookmark } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import ThemeToggle from "./ThemeToggle";
+import NavbarUser from "./NavbarUser";
 
 export default async function Navbar() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[var(--color-border)] bg-[var(--color-surface)]/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-surface/80 backdrop-blur-md">
       <nav className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
         <Link
           href="/"
-          className="flex items-center gap-2 font-display text-lg font-semibold tracking-tight text-[var(--color-text-primary)] transition-opacity hover:opacity-80"
+          className="flex items-center gap-1.5 font-display text-lg font-semibold tracking-tight text-text-primary transition-opacity hover:opacity-80"
         >
-          <span className="text-[var(--color-primary)]">▸</span>
+          <span className="text-primary">▸</span>
           Setpoint
         </Link>
 
-        {/* Links */}
-        <div className="flex items-center gap-6 text-sm text-[var(--color-text-muted)]">
-          <ThemeToggle />
-          {session && (
-            <Link
-              href="/reading-list"
-              className="...mismos estilos que tus otros links..."
-            >
-              <Bookmark size={16} />
-            </Link>
-          )}
+        <div className="flex items-center gap-5 text-sm text-text-muted">
           <Link
             href="/articles"
-            className="transition-colors hover:text-[var(--color-text-primary)]"
+            className="transition-colors hover:text-text-primary"
           >
             Articles
           </Link>
           <Link
             href="/series"
-            className="transition-colors hover:text-[var(--color-text-primary)]"
+            className="transition-colors hover:text-text-primary"
           >
             Series
           </Link>
-
           <Link
             href="/about"
-            className="transition-colors hover:text-[var(--color-text-primary)]"
+            className="transition-colors hover:text-text-primary"
           >
             About
           </Link>
-          <Link
-            href="/newsletter"
-            className="rounded-md border border-[var(--color-primary)] px-3 py-1.5 text-[var(--color-primary)] transition-colors hover:bg-[var(--color-primary)] hover:text-[var(--color-background)]"
-          >
-            Newsletter
-          </Link>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <NavbarUser user={session?.user ?? null} />
         </div>
       </nav>
     </header>
