@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Article } from "@/types/contentful";
 import { ArrowRight } from "lucide-react";
-import TagBadge from "./TagBade";
+import TagBadge from "./TagBadge";
 
 type Props = {
   article: Article;

@@ -2,21 +2,16 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Article } from "@/types/contentful";
-import TagBadge from "./TagBade";
+import TagBadge from "./TagBadge";
 import ReadingListButton from "./ReadingListButton";
 import { Clock, ArrowRight } from "lucide-react";
 
 type Props = {
   article: Article;
   index?: number;
-  initialSaved?: boolean;
 };
 
-export default function ArticleCard({
-  article,
-  index = 0,
-  initialSaved,
-}: Props) {
+export default function ArticleCard({ article, index = 0 }: Props) {
   const date = new Date(article.publishedAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
@@ -46,10 +41,7 @@ export default function ArticleCard({
               <TagBadge key={tag.slug} tag={tag} />
             ))}
           </div>
-          <ReadingListButton
-            articleSlug={article.slug}
-            initialSaved={initialSaved}
-          />
+          <ReadingListButton articleSlug={article.slug} />
         </div>
 
         <Link

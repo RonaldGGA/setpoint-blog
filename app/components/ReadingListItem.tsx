@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Article } from "@/types/contentful";
-import { Clock, ArrowUpRight } from "lucide-react";
+import { Clock, ArrowRight } from "lucide-react";
 import ReadingListButton from "./ReadingListButton";
-import TagBadge from "./TagBade";
+import TagBadge from "./TagBadge";
 
 interface Props {
   article: Article;
@@ -19,57 +19,53 @@ export default function ReadingListItem({ article, index = 0 }: Props) {
     day: "numeric",
   });
 
+  const accentColor = article.tags.items[0]?.color ?? "#F59E0B";
+
   return (
     <motion.li
-      initial={{ opacity: 0, x: -12 }}
-      animate={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.06, ease: "easeOut" }}
-      className="group relative flex flex-col gap-3 py-6 first:pt-0"
+      className="group rounded-xl border border-border bg-surface transition-[border-color,box-shadow] duration-300 hover:border-primary/40"
+      style={{ borderTopColor: accentColor }}
     >
-      {/* Accent line on hover */}
-      <div className="absolute left-0 top-0 bottom-0 w-px bg-[var(--color-primary)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="flex items-start justify-between gap-4 p-5">
+        <div className="flex flex-col gap-3 flex-1 min-w-0">
+          {article.tags.items.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {article.tags.items.map((tag) => (
+                <TagBadge key={tag.slug} tag={tag} />
+              ))}
+            </div>
+          )}
 
-      <div className="pl-4">
-        {/* Tags row */}
-        {article.tags.items.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-3">
-            {article.tags.items.map((tag) => (
-              <TagBadge key={tag.slug} tag={tag} />
-            ))}
-          </div>
-        )}
-
-        {/* Title + arrow */}
-        <div className="flex items-start justify-between gap-4">
-          <Link
-            href={`/articles/${article.slug}`}
-            className="group/title flex-1"
-          >
-            <h2 className="font-display text-lg font-semibold text-[var(--color-text-primary)] group-hover/title:text-[var(--color-primary)] transition-colors leading-snug">
+          <Link href={`/articles/${article.slug}`} className="group/title">
+            <h2 className="font-display text-lg font-semibold leading-snug text-text-primary transition-colors duration-200 group-hover/title:text-primary">
               {article.title}
-              <ArrowUpRight
-                size={14}
-                className="inline-block ml-1 opacity-0 group-hover/title:opacity-100 transition-opacity -translate-y-0.5"
-              />
             </h2>
+            {article.excerpt && (
+              <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-text-muted">
+                {article.excerpt}
+              </p>
+            )}
           </Link>
 
-          {/* Remove button */}
-          <ReadingListButton articleSlug={article.slug} initialSaved={true} />
+          <div className="flex items-center gap-3 text-xs text-text-muted">
+            <span>{date}</span>
+            <span className="text-border">·</span>
+            <span className="flex items-center gap-1">
+              <Clock size={10} strokeWidth={2} />
+              {article.readingTime} min read
+            </span>
+            <ArrowRight
+              size={12}
+              className="ml-auto opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100 group-hover:text-primary"
+            />
+          </div>
         </div>
 
-        {/* Excerpt */}
-        <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-muted)] line-clamp-2">
-          {article.excerpt}
-        </p>
-
-        {/* Meta */}
-        <div className="flex items-center gap-4 mt-3 text-xs text-[var(--color-text-muted)]">
-          <span>{date}</span>
-          <span className="flex items-center gap-1">
-            <Clock size={11} />
-            {article.readingTime} min read
-          </span>
+        <div className="shrink-0 pt-0.5">
+          <ReadingListButton articleSlug={article.slug} />
         </div>
       </div>
     </motion.li>

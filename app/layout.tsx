@@ -7,6 +7,8 @@ import { ApolloWrapper } from "@/lib/ApolloWrapper";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import NetworkBackground from "./components/NetworkBackground";
+import HideOnAdmin from "./components/NavbarWrapper";
+import { ReadingListProvider } from "./components/ReadingListProvider";
 
 const inter = localFont({
   src: "./fonts/InterVariable.woff2",
@@ -36,9 +38,15 @@ export default function RootLayout({
           }}
         />
         <NetworkBackground />
-        <Navbar />
-        <ApolloWrapper>{children}</ApolloWrapper>
-        <Footer />
+        <HideOnAdmin>
+          <Navbar />
+        </HideOnAdmin>
+        <ApolloWrapper>
+          <ReadingListProvider>{children}</ReadingListProvider>
+        </ApolloWrapper>
+        <HideOnAdmin>
+          <Footer />
+        </HideOnAdmin>
       </body>
     </html>
   );

@@ -149,3 +149,37 @@ export async function moderateComment(
 
   return { success: true };
 }
+
+const COMMENTS_PAGE_SIZE = 10;
+
+export async function getPendingCommentsPaginated(cursor?: string): Promise<{
+  comments: PendingComment[];
+  nextCursor: string | null;
+}> {
+  const comments = await prisma.comment.findMany({
+    where: { status: "PENDING" },
+    orderBy: { createdAt: "asc" },
+    take: COMMENTS_PAGE_SIZE + 1,
+    ...(cursor && {
+      cursor: { id: cursor },
+      skip: 1,
+    }),
+    include: {
+      author: { select: { name: true, image: true } },
+    },
+  });
+
+  const hasMore = comments.length > COMMENTS_PAGE_SIZE;
+  const items = hasMore ? comments.slice(0, COMMENTS_PAGE_SIZE) : comments;
+
+  return {
+    comments: items.map((c) => ({
+      id: c.id,
+      content: c.content,
+      createdAt: c.createdAt,
+      articleSlug: c.articleSlug,
+      author: c.author,
+    })),
+    nextCursor: hasMore ? items[items.length - 1].id : null,
+  };
+}

@@ -13,7 +13,7 @@ export default async function SeriesPage() {
   const series: SeriesWithCount[] = data?.seriesCollection?.items ?? [];
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-16">
+    <main className="mx-auto max-w-5xl px-6 py-16 w-full">
       <div className="mb-12">
         <div className="mb-4 flex items-center gap-2">
           <span className="h-px w-6 bg-primary" />

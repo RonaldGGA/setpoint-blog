@@ -6,7 +6,7 @@ import { Search, X, Clock, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { searchArticles } from "@/lib/actions/search";
 import { Article } from "@/types/contentful";
-import TagBadge from "./TagBade";
+import TagBadge from "./TagBadge";
 
 type Props = {
   open: boolean;

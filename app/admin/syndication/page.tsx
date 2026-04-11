@@ -1,60 +1,55 @@
-import { getClient } from "@/lib/ApolloClient";
-import { GET_ALL_ARTICLES } from "@/lib/queries/articles";
-import { GetAllArticlesQuery, Article } from "@/types/contentful";
 import { getSyndicationSettings } from "@/lib/actions/syndication";
-import { Rss } from "lucide-react";
+import { getSyndicationLogsPaginated } from "@/lib/actions/syndication";
 import SyndicationRow from "@/app/components/admin/SyndicationRow";
-
-export const revalidate = 0;
+import { Rss } from "lucide-react";
+import SyndicationLogList from "@/app/components/admin/SyndicationLogList";
 
 export default async function AdminSyndicationPage() {
-  const [{ data }, settings] = await Promise.all([
-    getClient().query<GetAllArticlesQuery>({ query: GET_ALL_ARTICLES }),
+  const [settings, { logs, nextCursor }] = await Promise.all([
     getSyndicationSettings(),
+    getSyndicationLogsPaginated(),
   ]);
 
-  const articles: Article[] = data?.articleCollection?.items ?? [];
-
-  const settingsMap = new Map(settings.map((s) => [s.articleSlug, s.enabled]));
-
   return (
-    <main className="mx-auto max-w-2xl px-6 py-12">
-      <div className="space-y-8">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <Rss size={20} className="text-[var(--color-primary)]" />
-            <h1 className="text-xl font-semibold text-[var(--color-text-primary)]">
-              Syndication
-            </h1>
-          </div>
-          <p className="text-sm text-[var(--color-text-muted)]">
-            Control which articles are syndicated to Hashnode
-          </p>
-        </div>
+    <div className="space-y-10">
+      <div>
+        <h1 className="font-display text-2xl font-bold text-text-primary">
+          Syndication
+        </h1>
+        <p className="mt-1 text-sm text-text-muted">
+          Control which articles get published to Hashnode automatically.
+        </p>
+      </div>
 
-        {articles.length === 0 && (
-          <div
-            className="flex flex-col items-center justify-center py-24 gap-3
-                          rounded-xl border border-dashed border-[var(--color-border)]"
-          >
-            <Rss size={32} className="text-[var(--color-border)]" />
-            <p className="text-sm text-[var(--color-text-muted)]">
-              No articles found
+      <div>
+        <h2 className="mb-4 text-sm font-semibold text-text-primary">
+          Article settings
+        </h2>
+        {settings.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border py-16">
+            <Rss size={24} className="text-border" />
+            <p className="text-sm text-text-muted">
+              No syndication settings configured yet.
+            </p>
+            <p className="text-xs text-text-muted">
+              Settings are created automatically when an article webhook fires.
             </p>
           </div>
+        ) : (
+          <div className="divide-y divide-border rounded-xl border border-border bg-surface">
+            {settings.map((s) => (
+              <SyndicationRow key={s.articleSlug} setting={s} />
+            ))}
+          </div>
         )}
-
-        <div className="space-y-2">
-          {articles.map((article) => (
-            <SyndicationRow
-              key={article.slug}
-              articleSlug={article.slug}
-              articleTitle={article.title}
-              initialEnabled={settingsMap.get(article.slug) ?? false}
-            />
-          ))}
-        </div>
       </div>
-    </main>
+
+      <div>
+        <h2 className="mb-4 text-sm font-semibold text-text-primary">
+          Activity log
+        </h2>
+        <SyndicationLogList initialLogs={logs} initialNextCursor={nextCursor} />
+      </div>
+    </div>
   );
 }

@@ -55,24 +55,25 @@ const certifications = [
 
 export default function AboutPage() {
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
-      {/* Header */}
+    <main className="mx-auto max-w-5xl px-6 py-16">
       <motion.div {...fadeUp(0)} className="mb-12">
-        <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)]">
-          About
-        </span>
-        <h1 className="font-display text-4xl font-bold text-[var(--color-text-primary)]">
+        <div className="mb-4 flex items-center gap-2">
+          <span className="h-px w-6 bg-primary" />
+          <span className="text-xs font-semibold uppercase tracking-widest text-primary">
+            About
+          </span>
+        </div>
+        <h1 className="font-display text-4xl font-bold text-text-primary">
           Ronald González de Armas
         </h1>
-        <p className="mt-2 text-lg text-[var(--color-secondary)]">
+        <p className="mt-2 text-lg text-secondary">
           Full-Stack Developer · Automation Engineering Student
         </p>
       </motion.div>
 
-      {/* Bio */}
       <motion.div
         {...fadeUp(0.1)}
-        className="mb-12 space-y-4 leading-relaxed text-[var(--color-text-muted)]"
+        className="mb-12 space-y-4 leading-relaxed text-text-muted"
       >
         <p>
           Self-taught Full-Stack Developer with 2+ years of daily project-based
@@ -91,74 +92,56 @@ export default function AboutPage() {
         </p>
       </motion.div>
 
-      {/* Divider */}
-      <motion.hr
-        {...fadeUp(0.15)}
-        className="mb-12 border-[var(--color-border)]"
-      />
+      <motion.hr {...fadeUp(0.15)} className="mb-12 border-border" />
 
-      {/* Skills */}
       <motion.div {...fadeUp(0.2)} className="mb-12">
-        <h2 className="font-display mb-6 text-xl font-semibold text-[var(--color-text-primary)]">
+        <h2 className="font-display mb-6 text-xl font-semibold text-text-primary">
           Technical Stack
         </h2>
         <div className="grid gap-3 sm:grid-cols-2">
           {skills.map((skill) => (
             <div
               key={skill.label}
-              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4"
+              className="rounded-xl border border-border bg-surface p-4 transition-colors hover:border-primary/40"
             >
-              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)]">
+              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-primary">
                 {skill.label}
               </p>
-              <p className="text-sm text-[var(--color-text-muted)]">
-                {skill.items}
-              </p>
+              <p className="text-sm text-text-muted">{skill.items}</p>
             </div>
           ))}
         </div>
       </motion.div>
 
-      {/* Certifications */}
       <motion.div {...fadeUp(0.3)} className="mb-12">
-        <h2 className="font-display mb-6 text-xl font-semibold text-[var(--color-text-primary)]">
+        <h2 className="font-display mb-6 text-xl font-semibold text-text-primary">
           Education & Certifications
         </h2>
-        <div className="space-y-4">
+        <div className="space-y-3">
           {certifications.map((cert) => (
             <div
               key={cert.title}
-              className="flex gap-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4"
+              className="flex gap-4 rounded-xl border border-border bg-surface p-4 transition-colors hover:border-primary/40"
             >
-              <cert.icon
-                size={20}
-                className="mt-0.5 shrink-0 text-[var(--color-primary)]"
-              />
+              <cert.icon size={18} className="mt-0.5 shrink-0 text-primary" />
               <div>
-                <p className="font-medium text-[var(--color-text-primary)]">
-                  {cert.title}
-                </p>
-                <p className="text-sm text-[var(--color-secondary)]">
-                  {cert.subtitle}
-                </p>
-                <p className="mt-0.5 text-xs text-[var(--color-text-muted)]">
-                  {cert.note}
-                </p>
+                <p className="font-medium text-text-primary">{cert.title}</p>
+                <p className="text-sm text-secondary">{cert.subtitle}</p>
+                <p className="mt-0.5 text-xs text-text-muted">{cert.note}</p>
               </div>
             </div>
           ))}
         </div>
       </motion.div>
 
-      {/* Contact */}
       <motion.div {...fadeUp(0.4)}>
-        <h2 className="font-display mb-6 text-xl font-semibold text-[var(--color-text-primary)]">
+        <h2 className="font-display mb-6 text-xl font-semibold text-text-primary">
           Get in touch
         </h2>
         <div className="flex flex-wrap gap-3">
           <Link
             href="mailto:ronald.dearmass@gmail.com"
-            className="flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 text-sm text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-primary)]/40 hover:text-[var(--color-text-primary)]"
+            className="flex items-center gap-2 rounded-lg border border-border bg-surface px-4 py-2 text-sm text-text-muted transition-colors hover:border-primary/40 hover:text-text-primary"
           >
             <Mail size={15} />
             ronald.dearmass@gmail.com
@@ -166,7 +149,8 @@ export default function AboutPage() {
           <Link
             href="https://github.com/RonaldGGA"
             target="_blank"
-            className="flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 text-sm text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-primary)]/40 hover:text-[var(--color-text-primary)]"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 rounded-lg border border-border bg-surface px-4 py-2 text-sm text-text-muted transition-colors hover:border-primary/40 hover:text-text-primary"
           >
             <FaGithub size={15} />
             RonaldGGA
@@ -174,7 +158,8 @@ export default function AboutPage() {
           <Link
             href="https://portfolio-ronalddearmas.vercel.app"
             target="_blank"
-            className="flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 text-sm text-[var(--color-text-muted)] transition-colors hover:border-[var(--color-primary)]/40 hover:text-[var(--color-text-primary)]"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 rounded-lg border border-border bg-surface px-4 py-2 text-sm text-text-muted transition-colors hover:border-primary/40 hover:text-text-primary"
           >
             <Globe size={15} />
             Portfolio

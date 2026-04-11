@@ -212,3 +212,42 @@ export const GET_SERIES_BY_SLUG = gql`
     }
   }
 `;
+
+export const GET_ARTICLES_BY_TAG = gql`
+  query GetArticlesByTag($slug: String!) {
+    tagCollection(where: { slug: $slug }, limit: 1) {
+      items {
+        name
+        slug
+        color
+        linkedFrom {
+          articleCollection(order: publishedAt_DESC) {
+            items {
+              title
+              slug
+              excerpt
+              publishedAt
+              readingTime
+              coverImage {
+                url
+                description
+              }
+              tags: tagsCollection {
+                items {
+                  name
+                  slug
+                  color
+                }
+              }
+              series {
+                title
+                slug
+              }
+              seriesOrder
+            }
+          }
+        }
+      }
+    }
+  }
+`;

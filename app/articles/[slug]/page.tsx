@@ -1,6 +1,6 @@
 import CommentSection from "@/app/components/CommentSection";
 import ReadingProgress from "@/app/components/ReadingProgress";
-import TagBadge from "@/app/components/TagBade";
+import TagBadge from "@/app/components/TagBadge";
 import { getClient } from "@/lib/ApolloClient";
 import { withCache } from "@/lib/cache";
 import { GET_ARTICLE_BY_SLUG } from "@/lib/queries/articles";

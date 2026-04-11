@@ -3,13 +3,24 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { signOut } from "@/lib/auth-client";
-import { User, LogOut, Bookmark, ChevronDown } from "lucide-react";
+import {
+  User,
+  LogOut,
+  Bookmark,
+  ChevronDown,
+  LayoutDashboard,
+} from "lucide-react";
 
 interface Props {
   user: {
-    name?: string | null;
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
     email: string;
-    image?: string | null;
+    emailVerified: boolean;
+    name: string;
+    image?: string | null | undefined;
+    role: string;
   } | null;
 }
 
@@ -79,6 +90,16 @@ export default function NavbarUser({ user }: Props) {
             <Bookmark size={14} />
             Reading list
           </Link>
+          {user.role === "ADMIN" && (
+            <Link
+              href="/admin"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-text-muted transition-colors hover:bg-border/40 hover:text-text-primary"
+            >
+              <LayoutDashboard size={14} />
+              Admin
+            </Link>
+          )}
 
           <Link
             href="/profile"
