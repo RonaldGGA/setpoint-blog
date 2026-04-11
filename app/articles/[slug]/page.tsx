@@ -8,6 +8,10 @@ import { GetArticleBySlugQuery } from "@/types/contentful";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft, Clock } from "lucide-react";
+import ShareButtons from "@/app/components/SharedButton";
 
 export const revalidate = 300;
 
@@ -17,7 +21,6 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-// Shared fetcher — both generateMetadata and ArticlePage use the same cache key
 async function getArticle(slug: string) {
   const { data } = await withCache(`article:${slug}`, 300, () =>
     getClient().query<GetArticleBySlugQuery>({
@@ -59,7 +62,6 @@ export default async function ArticlePage({ params }: Props) {
 
   const articleUrl = `${BASE_URL}/articles/${slug}`;
 
-  // JSON-LD — Article schema
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "TechArticle",
@@ -84,12 +86,7 @@ export default async function ArticlePage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Setpoint",
-        item: BASE_URL,
-      },
+      { "@type": "ListItem", position: 1, name: "Setpoint", item: BASE_URL },
       {
         "@type": "ListItem",
         position: 2,
@@ -106,7 +103,7 @@ export default async function ArticlePage({ params }: Props) {
   };
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-16">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
@@ -117,40 +114,93 @@ export default async function ArticlePage({ params }: Props) {
       />
 
       <ReadingProgress />
-      <div className="mx-auto max-w-2xl">
-        {article.tags.items.length > 0 && (
-          <div className="mb-4 flex flex-wrap gap-2">
-            {article.tags.items.map((tag) => (
-              <TagBadge key={tag.slug} tag={tag} />
-            ))}
-          </div>
-        )}
-        <h1 className="font-display text-3xl font-bold leading-tight text-[var(--color-text-primary)] sm:text-4xl">
-          {article.title}
-        </h1>
-        <p className="mt-4 text-lg leading-relaxed text-[var(--color-text-muted)]">
-          {article.excerpt}
-        </p>
-        <div className="mt-6 flex items-center gap-4 border-b border-[var(--color-border)] pb-8 text-sm text-[var(--color-text-muted)]">
-          <span>{date}</span>
-          <span className="text-[var(--color-border)]">·</span>
-          <span>{article.readingTime} min read</span>
-          {article.series && (
-            <>
-              <span className="text-[var(--color-border)]">·</span>
-              <span className="text-[var(--color-secondary)]">
-                {article.series.title}
-              </span>
-            </>
-          )}
-        </div>
-      </div>
-      {article.body && (
-        <div className="prose mx-auto mt-10 max-w-2xl">
-          {documentToReactComponents(article.body.json)}
+
+      {article.coverImage && (
+        <div className="relative h-64 w-full overflow-hidden sm:h-80 md:h-96">
+          <Image
+            src={article.coverImage.url}
+            alt={article.title}
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-background via-background/60 to-transparent" />
         </div>
       )}
-      <CommentSection articleSlug={slug} />
-    </main>
+
+      <main className="mx-auto max-w-5xl px-6 pb-24">
+        <div className="mx-auto max-w-2xl">
+          <div
+            className={
+              article.coverImage ? "-mt-16 relative z-10 pt-0" : "pt-16"
+            }
+          >
+            <Link
+              href="/articles"
+              className="mb-8 inline-flex items-center gap-1.5 text-sm text-text-muted transition-colors hover:text-text-primary"
+            >
+              <ArrowLeft size={14} />
+              All articles
+            </Link>
+
+            {article.tags.items.length > 0 && (
+              <div className="mb-4 flex flex-wrap gap-2">
+                {article.tags.items.map((tag) => (
+                  <TagBadge key={tag.slug} tag={tag} />
+                ))}
+              </div>
+            )}
+
+            <h1 className="font-display text-3xl font-bold leading-tight text-text-primary sm:text-4xl">
+              {article.title}
+            </h1>
+
+            <p className="mt-4 text-lg leading-relaxed text-text-muted">
+              {article.excerpt}
+            </p>
+
+            <div className="mt-6 flex items-center justify-between border-b border-border pb-8">
+              <div className="flex items-center gap-4 text-sm text-text-muted">
+                <span>{date}</span>
+                <span className="text-border">·</span>
+                <span className="flex items-center gap-1">
+                  <Clock size={13} strokeWidth={2} />
+                  {article.readingTime} min read
+                </span>
+                {article.series && (
+                  <>
+                    <span className="text-border">·</span>
+                    <span className="text-secondary">
+                      {article.series.title}
+                    </span>
+                  </>
+                )}
+              </div>
+              <ShareButtons title={article.title} url={articleUrl} />
+            </div>
+          </div>
+
+          {article.body && (
+            <div className="prose mt-10">
+              {documentToReactComponents(article.body.json)}
+            </div>
+          )}
+
+          <div className="mt-16 flex items-center justify-between border-t border-border pt-8">
+            <Link
+              href="/articles"
+              className="flex items-center gap-1.5 text-sm text-text-muted transition-colors hover:text-text-primary"
+            >
+              <ArrowLeft size={14} />
+              Back to articles
+            </Link>
+            <ShareButtons title={article.title} url={articleUrl} />
+          </div>
+        </div>
+
+        <CommentSection articleSlug={slug} />
+      </main>
+    </>
   );
 }

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Article } from "@/types/contentful";
 import TagBadge from "./TagBade";
 import ReadingListButton from "./ReadingListButton";
-import { Clock } from "lucide-react";
+import { Clock, ArrowRight } from "lucide-react";
 
 type Props = {
   article: Article;
@@ -22,69 +22,63 @@ export default function ArticleCard({
     month: "short",
     day: "numeric",
   });
-
   const accentColor = article.tags.items[0]?.color ?? "#F59E0B";
 
   return (
-    <div
-      className="group relative flex flex-col rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden transition-all duration-300 hover:border-[var(--color-primary)]/40 hover:-translate-y-0.5 shadow-sm hover:shadow-lg hover:shadow-black/20"
-      style={{
-        animation: "fadeInUp 0.4s ease-out both",
-        animationDelay: `${index * 0.08}s`,
-      }}
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.08 }}
+      className="group relative flex flex-col rounded-xl border border-border bg-surface overflow-hidden transition-[border-color,box-shadow] duration-300 hover:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.4)]"
+      style={{ borderTopColor: accentColor }}
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{
-          background: `radial-gradient(ellipse 80% 50% at 50% -10%, ${accentColor}14, transparent 70%)`,
-        }}
-      />
-      <div
-        className="pointer-events-none absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style={{
-          background: `linear-gradient(90deg, transparent 0%, ${accentColor} 50%, transparent 100%)`,
+          background: `radial-gradient(ellipse 80% 60% at 50% 0%, ${accentColor}10, transparent 70%)`,
         }}
       />
 
-      <Link
-        href={`/articles/${article.slug}`}
-        className="flex flex-col gap-3 p-6 pb-16"
-      >
-        <div className="flex items-start justify-between gap-2">
+      <div className="flex flex-col flex-1 p-6">
+        <div className="flex items-start justify-between gap-3 mb-4">
           <div className="flex flex-wrap gap-1.5">
             {article.tags.items.map((tag) => (
               <TagBadge key={tag.slug} tag={tag} />
             ))}
           </div>
-          <span className="font-mono text-[10px] tabular-nums select-none text-[var(--color-text-muted)] opacity-30 group-hover:opacity-60 transition-opacity duration-300 shrink-0">
-            {String(index + 1).padStart(2, "0")}
-          </span>
+          <ReadingListButton
+            articleSlug={article.slug}
+            initialSaved={initialSaved}
+          />
         </div>
 
-        <h2 className="font-display text-lg font-semibold leading-snug text-[var(--color-text-primary)] transition-colors duration-200 group-hover:text-[var(--color-primary)]">
-          {article.title}
-        </h2>
+        <Link
+          href={`/articles/${article.slug}`}
+          className="flex flex-col flex-1 gap-3"
+        >
+          <h2 className="font-display text-base font-semibold leading-snug text-text-primary transition-colors duration-200 group-hover:text-primary">
+            {article.title}
+          </h2>
+          <p className="line-clamp-2 text-sm leading-relaxed text-text-muted flex-1">
+            {article.excerpt}
+          </p>
 
-        <p className="line-clamp-2 text-sm leading-relaxed text-[var(--color-text-muted)]">
-          {article.excerpt}
-        </p>
-
-        <div className="flex items-center gap-2.5 text-xs text-[var(--color-text-muted)] mt-auto">
-          <span className="font-mono">{date}</span>
-          <span className="w-px h-3 bg-[var(--color-border)]" aria-hidden />
-          <span className="flex items-center gap-1 font-mono">
-            <Clock size={10} strokeWidth={2} />
-            {article.readingTime} min
-          </span>
-        </div>
-      </Link>
-
-      <div className="absolute bottom-5 right-5">
-        <ReadingListButton
-          articleSlug={article.slug}
-          initialSaved={initialSaved}
-        />
+          <div className="flex items-center justify-between pt-4 border-t border-border mt-auto">
+            <div className="flex items-center gap-2.5 text-xs text-text-muted">
+              <span>{date}</span>
+              <span className="w-px h-3 bg-border" aria-hidden />
+              <span className="flex items-center gap-1">
+                <Clock size={10} strokeWidth={2} />
+                {article.readingTime} min
+              </span>
+            </div>
+            <ArrowRight
+              size={13}
+              className="text-text-muted transition-all duration-200 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:text-primary"
+            />
+          </div>
+        </Link>
       </div>
-    </div>
+    </motion.div>
   );
 }

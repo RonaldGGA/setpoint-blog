@@ -6,6 +6,7 @@ import "./globals.css";
 import { ApolloWrapper } from "@/lib/ApolloWrapper";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import NetworkBackground from "./components/NetworkBackground";
 
 const inter = localFont({
   src: "./fonts/InterVariable.woff2",
@@ -21,9 +22,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
@@ -33,18 +32,10 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-          (function() {
-            try {
-              var theme = localStorage.getItem('theme');
-              if (theme === 'light') {
-                document.documentElement.classList.add('light');
-              }
-            } catch(e) {}
-          })();
-        `,
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');}catch(e){}})();`,
           }}
         />
+        <NetworkBackground />
         <Navbar />
         <ApolloWrapper>{children}</ApolloWrapper>
         <Footer />

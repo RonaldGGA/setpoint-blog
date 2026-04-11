@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import ThemeToggle from "./ThemeToggle";
 import NavbarUser from "./NavbarUser";
+import SearchButton from "./SearchButton";
 
 export default async function Navbar() {
   const session = await auth.api.getSession({
@@ -42,6 +43,7 @@ export default async function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
+          <SearchButton />
           <ThemeToggle />
           <NavbarUser user={session?.user ?? null} />
         </div>

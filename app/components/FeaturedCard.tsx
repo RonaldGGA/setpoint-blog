@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -22,78 +21,72 @@ export default function FeaturedCard({ article }: Props) {
     <motion.div
       initial={{ opacity: 0, y: 32 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" as const }}
-      className="mb-12"
+      transition={{ duration: 0.5, ease: "easeOut", delay: 0.36 }}
+      className="mb-14"
     >
       <Link
         href={`/articles/${article.slug}`}
-        className="group grid grid-cols-1 gap-0 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] transition-all hover:border-[var(--color-primary)]/40 lg:grid-cols-2"
+        className="group relative block min-h-95 overflow-hidden rounded-2xl border border-border transition-[border-color,box-shadow] duration-300 hover:border-primary/50 hover:shadow-[0_0_60px_-15px_#f59e0b35]"
       >
-        <div className="flex flex-col justify-between p-8 lg:p-10">
-          <div>
-            <div className="mb-2 flex items-center gap-2">
-              <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)]">
+        {article.coverImage ? (
+          <Image
+            src={article.coverImage.url}
+            alt={article.title}
+            fill
+            className="object-cover transition-transform duration-700"
+            sizes="100vw"
+            loading="eager"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-surface">
+            <div className="absolute inset-0 bg-linear-to-br from-primary/8 via-transparent to-secondary/8" />
+          </div>
+        )}
+
+        <div className="absolute inset-0 bg-linear-to-t from-background via-background/85 to-background/20" />
+
+        <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-10">
+          <div className="max-w-2xl">
+            <div className="mb-4 flex items-center gap-3">
+              <span className="text-xs font-semibold uppercase tracking-widest text-primary">
                 Featured
               </span>
+              {article.tags.items.length > 0 && (
+                <>
+                  <span className="text-border">·</span>
+                  <div className="flex flex-wrap gap-2">
+                    {article.tags.items.map((tag) => (
+                      <TagBadge key={tag.slug} tag={tag} />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
-            {article.tags.items.length > 0 && (
-              <div className="mb-4 flex flex-wrap gap-2">
-                {article.tags.items.map((tag) => (
-                  <TagBadge key={tag.slug} tag={tag} />
-                ))}
-              </div>
-            )}
-
-            <h2 className="font-display text-2xl font-bold leading-tight text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-primary)] sm:text-3xl">
+            <h2 className="font-display text-3xl font-bold leading-tight text-text-primary transition-colors duration-200 group-hover:text-primary sm:text-4xl">
               {article.title}
             </h2>
 
-            <p className="mt-3 leading-relaxed text-[var(--color-text-muted)]">
+            <p className="mt-3 max-w-xl leading-relaxed text-text-muted">
               {article.excerpt}
             </p>
-          </div>
 
-          <div className="mt-8 flex items-center justify-between text-sm">
-            <div className="flex items-center gap-3 text-[var(--color-text-muted)]">
-              <span>{date}</span>
-              <span className="text-[var(--color-border)]">·</span>
-              <span>{article.readingTime} min read</span>
-            </div>
-
-            <span className="ml-2 flex items-center gap-1 font-medium text-[var(--color-primary)] transition-transform group-hover:translate-x-1">
-              Read <ArrowRight size={15} />
-            </span>
-          </div>
-        </div>
-
-        {article.coverImage ? (
-          <div className="relative min-h-56 w-full overflow-hidden lg:min-h-full">
-            <Image
-              src={article.coverImage.url}
-              alt={article.title}
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              loading="eager"
-            />
-          </div>
-        ) : (
-          <div className="relative min-h-56 overflow-hidden bg-[var(--color-background)] lg:min-h-full">
-            <div
-              className="absolute inset-0 opacity-10"
-              style={{
-                backgroundImage: `radial-gradient(circle, var(--color-primary) 1px, transparent 1px)`,
-                backgroundSize: "24px 24px",
-              }}
-            />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="font-mono text-6xl font-bold text-[var(--color-primary)] opacity-20">
-                SP
+            <div className="mt-6 flex items-center justify-between border-t border-border/60 pt-5 text-sm">
+              <div className="flex items-center gap-3 text-text-muted">
+                <span>{date}</span>
+                <span className="text-border">·</span>
+                <span>{article.readingTime} min read</span>
+              </div>
+              <span className="flex items-center gap-1.5 font-medium text-primary">
+                Read article
+                <ArrowRight
+                  size={14}
+                  className="transition-transform duration-200 group-hover:translate-x-1"
+                />
               </span>
             </div>
           </div>
-        )}
+        </div>
       </Link>
     </motion.div>
   );
