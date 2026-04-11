@@ -10,6 +10,7 @@ import {
   ChevronDown,
   LayoutDashboard,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Props {
   user: {
@@ -27,6 +28,7 @@ interface Props {
 export default function NavbarUser({ user }: Props) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -37,6 +39,11 @@ export default function NavbarUser({ user }: Props) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const logOutUser = async () => {
+    await signOut();
+    router.refresh();
+  };
 
   if (!user) {
     return (
@@ -111,7 +118,7 @@ export default function NavbarUser({ user }: Props) {
           </Link>
 
           <button
-            onClick={() => signOut()}
+            onClick={() => logOutUser()}
             className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-text-muted transition-colors hover:bg-border/40 hover:text-text-primary"
           >
             <LogOut size={14} />

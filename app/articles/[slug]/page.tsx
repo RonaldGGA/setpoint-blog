@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Clock } from "lucide-react";
 import ShareButtons from "@/app/components/SharedButton";
+import ArticleCoverFallback from "@/app/components/ArticleCoverFallback";
 
 export const revalidate = 300;
 
@@ -115,7 +116,7 @@ export default async function ArticlePage({ params }: Props) {
 
       <ReadingProgress />
 
-      {article.coverImage && (
+      {article.coverImage ? (
         <div className="relative h-64 w-full overflow-hidden sm:h-80 md:h-96">
           <Image
             src={article.coverImage.url}
@@ -124,18 +125,20 @@ export default async function ArticlePage({ params }: Props) {
             className="object-cover"
             sizes="100vw"
             priority
+            loading="eager"
           />
           <div className="absolute inset-0 bg-linear-to-t from-background via-background/60 to-transparent" />
         </div>
+      ) : (
+        <ArticleCoverFallback
+          accentColor={article.tags.items[0]?.color ?? "#F59E0B"}
+          tagName={article.tags.items[0]?.name}
+        />
       )}
 
       <main className="mx-auto max-w-5xl px-6 pb-24">
         <div className="mx-auto max-w-2xl">
-          <div
-            className={
-              article.coverImage ? "-mt-16 relative z-10 pt-0" : "pt-16"
-            }
-          >
+          <div className={"-mt-16 relative z-10 pt-0"}>
             <Link
               href="/articles"
               className="mb-8 inline-flex items-center gap-1.5 text-sm text-text-muted transition-colors hover:text-text-primary"

@@ -24,17 +24,14 @@ export default function FeaturedCard({ article }: Props) {
       transition={{ duration: 0.5, ease: "easeOut", delay: 0.36 }}
       className="mb-14"
     >
-      <Link
-        href={`/articles/${article.slug}`}
-        className="group relative block min-h-95 overflow-hidden rounded-2xl border border-border transition-[border-color,box-shadow] duration-300 hover:border-primary/50 hover:shadow-[0_0_60px_-15px_#f59e0b35]"
-      >
+      <div className="group relative min-h-95 overflow-hidden rounded-2xl border border-border transition-[border-color,box-shadow] duration-300 hover:border-primary/50 hover:shadow-[0_0_60px_-15px_#f59e0b35]">
         {article.coverImage ? (
           <Image
             src={article.coverImage.url}
             alt={article.title}
             fill
             className="object-cover transition-transform duration-700"
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw, 860px"
             loading="eager"
           />
         ) : (
@@ -54,18 +51,24 @@ export default function FeaturedCard({ article }: Props) {
               {article.tags.items.length > 0 && (
                 <>
                   <span className="text-border">·</span>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="relative z-10 flex flex-wrap gap-2">
                     {article.tags.items.map((tag) => (
-                      <TagBadge key={tag.slug} tag={tag} />
+                      <TagBadge
+                        key={tag.slug}
+                        tag={tag}
+                        className="border border-current/30 bg-black/30 backdrop-blur-sm"
+                      />
                     ))}
                   </div>
                 </>
               )}
             </div>
 
-            <h2 className="font-display text-3xl font-bold leading-tight text-text-primary transition-colors duration-200 group-hover:text-primary sm:text-4xl">
-              {article.title}
-            </h2>
+            <Link href={`/articles/${article.slug}`}>
+              <h2 className="relative font-display text-3xl font-bold leading-tight text-text-primary transition-colors duration-200 group-hover:text-primary sm:text-4xl after:absolute after:inset-0 after:-m-8 after:content-['']">
+                {article.title}
+              </h2>
+            </Link>
 
             <p className="mt-3 max-w-xl leading-relaxed text-text-muted">
               {article.excerpt}
@@ -77,17 +80,20 @@ export default function FeaturedCard({ article }: Props) {
                 <span className="text-border">·</span>
                 <span>{article.readingTime} min read</span>
               </div>
-              <span className="flex items-center gap-1.5 font-medium text-primary">
+              <Link
+                href={`/articles/${article.slug}`}
+                className="relative z-10 flex items-center gap-1.5 font-medium text-primary"
+              >
                 Read article
                 <ArrowRight
                   size={14}
                   className="transition-transform duration-200 group-hover:translate-x-1"
                 />
-              </span>
+              </Link>
             </div>
           </div>
         </div>
-      </Link>
+      </div>
     </motion.div>
   );
 }
