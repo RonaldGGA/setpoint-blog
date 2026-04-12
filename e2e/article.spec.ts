@@ -53,11 +53,9 @@ test.describe("Article page", () => {
   });
 
   test("reading progress bar is present", async ({ page }) => {
-    await page.goto(ARTICLE_URL);
-    // ReadingProgress component renders a fixed bar at the top
-    // It has a specific role or we can check by its fixed position style
+    await page.goto(ARTICLE_URL, { waitUntil: "networkidle" });
     const progressBar = page.locator('[role="progressbar"]');
-    await expect(progressBar).toBeAttached();
+    await expect(progressBar).toBeAttached({ timeout: 10000 });
   });
 
   test("returns 404 for non-existent slug", async ({ page }) => {

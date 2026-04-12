@@ -31,8 +31,12 @@ test.describe("Route protection", () => {
   test("/login page renders sign in options", async ({ page }) => {
     await page.goto("/login");
     // Login page should have GitHub and Google buttons
-    await expect(page.getByText(/GitHub/i)).toBeVisible();
-    await expect(page.getByText(/Google/i)).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: /Continue with GitHub/i })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: /Continue with Google/i })
+    ).toBeVisible();
   });
 
   test("public pages are accessible without auth", async ({ page }) => {

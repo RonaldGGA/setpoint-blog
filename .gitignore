@@ -46,3 +46,5 @@ setpoint-spec.md
 AGENTS.md
 CLAUDE.md
 /lib/generated/prisma
+/tests-results
+/playwright-report

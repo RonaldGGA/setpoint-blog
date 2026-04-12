@@ -41,13 +41,13 @@ test.describe("SEO infrastructure", () => {
   });
 
   test("home page has og:title meta tag", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "networkidle" });
     const ogTitle = page.locator('meta[property="og:title"]');
     await expect(ogTitle).toBeAttached();
   });
 
   test("home page has og:description meta tag", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "networkidle" });
     const ogDesc = page.locator('meta[property="og:description"]');
     await expect(ogDesc).toBeAttached();
   });

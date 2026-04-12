@@ -6,7 +6,7 @@ import { FaGithub } from "react-icons/fa";
 export default function LoginPage() {
   return (
     <main className="relative flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-4">
-      <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-background/80 via-background/40 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-3/4 bg-linear-to-t from-background/80 via-background/40 to-transparent" />
 
       <div className="relative z-10 w-full max-w-sm">
         <div className="mb-8 text-center">

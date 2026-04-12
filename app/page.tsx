@@ -14,6 +14,16 @@ import HeroSection from "./components/HeroSection";
 import { withCache } from "@/lib/cache";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Setpoint",
+  description: "Where industrial automation meets modern software...",
+  openGraph: {
+    title: "Setpoint",
+    description: "Where industrial automation meets modern software...",
+  },
+};
 
 export const revalidate = 60;
 

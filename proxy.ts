@@ -12,8 +12,6 @@ export function proxy(request: NextRequest) {
   return NextResponse.next();
 }
 
-export { proxy as middleware };
-
 export const config = {
   matcher: ["/admin/:path*", "/reading-list", "/profile"],
 };
