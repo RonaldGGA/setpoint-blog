@@ -39,6 +39,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Debug env
+        run: |
+          echo "DB URL length: ${#DATABASE_URL}"
+           echo "DIRECT URL length: ${#DIRECT_URL}"
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
