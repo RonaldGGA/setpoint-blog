@@ -27,6 +27,7 @@ export default async function Home() {
     withCache("home:latest", 60, () =>
       getClient().query<GetLatestArticlesQuery>({ query: GET_LATEST_ARTICLES })
     ),
+    withCache("home:saved-slugs", 60, () => Promise.resolve([])),
   ]);
 
   const featured: Article | undefined =
