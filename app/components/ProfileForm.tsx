@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateProfile } from "@/lib/actions/user";
 import { signOut } from "@/lib/auth-client";
-import { User, LogOut, Save, Loader2 } from "lucide-react";
+import { LogOut, Save, Loader2 } from "lucide-react";
 import Image from "next/image";
 
 type Props = {
@@ -12,6 +12,40 @@ type Props = {
   initialImage: string | null;
   email: string;
 };
+
+function AvatarFallback({ name }: { name: string }) {
+  const initials = name
+    ? name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "?";
+
+  return (
+    <div className="relative h-16 w-16 overflow-hidden rounded-full bg-surface border border-border flex items-center justify-center shrink-0">
+      <div
+        className="absolute inset-0 rounded-full opacity-20"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 0%, #F59E0B, transparent 70%)",
+        }}
+      />
+      <div
+        className="absolute inset-0 rounded-full opacity-20"
+        style={{
+          backgroundImage:
+            "linear-gradient(#F59E0B20 1px, transparent 1px), linear-gradient(90deg, #F59E0B20 1px, transparent 1px)",
+          backgroundSize: "8px 8px",
+        }}
+      />
+      <span className="relative z-10 font-display text-base font-semibold text-primary">
+        {initials}
+      </span>
+    </div>
+  );
+}
 
 export default function ProfileForm({
   initialName,
@@ -25,13 +59,12 @@ export default function ProfileForm({
     "idle"
   );
   const [error, setError] = useState<string | null>(null);
+  const [imgError, setImgError] = useState(false);
 
   async function handleSave() {
     setStatus("saving");
     setError(null);
-
     const result = await updateProfile({ name, image });
-
     if (result.success) {
       setStatus("success");
       setTimeout(() => setStatus("idle"), 2000);
@@ -47,29 +80,35 @@ export default function ProfileForm({
     router.refresh();
   }
 
-  const avatarSrc = image.trim() || null;
+  const avatarSrc = image.trim() && !imgError ? image.trim() : null;
 
   return (
     <div className="space-y-8">
       <div className="flex items-center gap-4">
-        <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-[var(--color-border)] bg-[var(--color-border)] flex items-center justify-center shrink-0">
-          {avatarSrc ? (
-            <Image src={avatarSrc} alt={name} fill className="object-cover" />
-          ) : (
-            <User size={24} className="text-[var(--color-text-muted)]" />
-          )}
-        </div>
+        {avatarSrc ? (
+          <div className="relative h-16 w-16 overflow-hidden rounded-full border border-border shrink-0">
+            <Image
+              src={avatarSrc}
+              alt={name}
+              fill
+              className="object-cover"
+              onError={() => setImgError(true)}
+            />
+          </div>
+        ) : (
+          <AvatarFallback name={name} />
+        )}
         <div>
-          <p className="font-medium text-[var(--color-text-primary)]">
-            {name || "—"}
-          </p>
-          <p className="text-sm text-[var(--color-text-muted)]">{email}</p>
+          <p className="font-medium text-text-primary">{name || "—"}</p>
+          <p className="text-sm text-text-muted">{email}</p>
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="h-px bg-border" />
+
+      <div className="space-y-5">
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-[var(--color-text-primary)]">
+          <label className="text-xs font-semibold uppercase tracking-widest text-text-muted">
             Display name
           </label>
           <input
@@ -77,42 +116,49 @@ export default function ProfileForm({
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Your name"
-            className="w-full px-3 py-2 rounded-lg text-sm
-                       bg-[var(--color-surface)] border border-[var(--color-border)]
-                       text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)]
-                       focus:outline-none focus:border-[var(--color-primary)]
+            className="w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-sm
+                       text-text-primary placeholder:text-text-muted
+                       focus:outline-none focus:border-primary
                        transition-colors duration-200"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-[var(--color-text-primary)]">
+          <label className="text-xs font-semibold uppercase tracking-widest text-text-muted">
             Avatar URL
           </label>
           <input
             type="url"
             value={image}
-            onChange={(e) => setImage(e.target.value)}
+            onChange={(e) => {
+              setImage(e.target.value);
+              setImgError(false);
+            }}
             placeholder="https://..."
-            className="w-full px-3 py-2 rounded-lg text-sm font-mono
-                       bg-[var(--color-surface)] border border-[var(--color-border)]
-                       text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)]
-                       focus:outline-none focus:border-[var(--color-primary)]
+            className="w-full rounded-lg border border-border bg-surface px-3 py-2.5
+                       font-mono text-sm text-text-primary placeholder:text-text-muted
+                       focus:outline-none focus:border-primary
                        transition-colors duration-200"
           />
+          <p className="text-xs text-text-muted">
+            Paste any image URL — your GitHub or Google avatar works great.
+          </p>
         </div>
       </div>
 
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {error && (
+        <p className="rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-2 text-sm text-red-400">
+          {error}
+        </p>
+      )}
 
-      <div className="flex items-center justify-between pt-2">
+      <div className="flex items-center justify-between border-t border-border pt-6">
         <button
           onClick={handleSave}
           disabled={status === "saving"}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
-                     bg-[var(--color-primary)] text-black
-                     hover:bg-[var(--color-primary-hover)] transition-colors duration-200
-                     disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium
+                     text-background transition-opacity duration-200
+                     hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {status === "saving" ? (
             <Loader2 size={14} className="animate-spin" />
@@ -122,16 +168,16 @@ export default function ProfileForm({
           {status === "saving"
             ? "Saving..."
             : status === "success"
-              ? "Saved!"
+              ? "Saved ✓"
               : "Save changes"}
         </button>
 
         <button
           onClick={handleSignOut}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
-                     text-[var(--color-text-muted)] border border-[var(--color-border)]
-                     hover:text-red-500 hover:border-red-500/40
-                     transition-colors duration-200"
+          className="flex items-center gap-2 rounded-lg border border-border px-4 py-2
+                     text-sm font-medium text-text-muted
+                     transition-colors duration-200
+                     hover:border-red-500/40 hover:text-red-400"
         >
           <LogOut size={14} />
           Sign out
