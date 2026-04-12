@@ -8,13 +8,14 @@
 import { test, expect } from "@playwright/test";
 
 // ─── Change this to a real slug from your Contentful space ───────────────────
-const TEST_SLUG = process.env.TEST_ARTICLE_SLUG ?? "test-slug-2";
+const TEST_SLUG =
+  process.env.TEST_ARTICLE_SLUG ??
+  "why-i-built-this-blog-with-nextjs-instead-of-no-code-tool";
 const ARTICLE_URL = `/articles/${TEST_SLUG}`;
 
 test.describe("Article page", () => {
   test("renders the article title", async ({ page }) => {
     await page.goto(ARTICLE_URL);
-    // The h1 should be visible and non-empty
     const heading = page.getByRole("heading", { level: 1 });
     await expect(heading).toBeVisible();
     const text = await heading.innerText();

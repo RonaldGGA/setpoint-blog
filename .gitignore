@@ -43,6 +43,6 @@ next-env.d.ts
 
 setpoint-spec.md
 
-AGENTS.mdre
+AGENTS.md
 CLAUDE.md
 /lib/generated/prisma

@@ -19,7 +19,7 @@ const inter = localFont({
 export const metadata: Metadata = {
   title: "Setpoint",
   description:
-    "Technical publishing for the Industry 4.0, SCADA, PLCs, IIoT, Software Development, Arduino and more",
+    "Where industrial automation meets modern software. Deep dives on PLCs, SCADA, IIoT, and OPC-UA — written by a developer who builds both.",
 };
 
 export default function RootLayout({

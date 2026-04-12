@@ -7,10 +7,6 @@ datasource db {
   provider = "postgresql"
 }
 
-// ============================================
-// BETTER AUTH TABLES (no tocar estructura)
-// ============================================
-
 model user {
   id            String   @id
   name          String
@@ -20,10 +16,8 @@ model user {
   createdAt     DateTime
   updatedAt     DateTime
 
-  // Nuestros campos extra
   role Role @default(READER)
 
-  // Relaciones
   sessions    session[]
   accounts    account[]
   comments    Comment[]
@@ -75,10 +69,6 @@ model verification {
 
   @@map("verification")
 }
-
-// ============================================
-// NUESTROS MODELOS
-// ============================================
 
 enum Role {
   ADMIN
