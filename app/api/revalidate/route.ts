@@ -8,6 +8,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  if (!redis) {
+    return NextResponse.json(
+      { error: "Redis client not available" },
+      { status: 500 }
+    );
+  }
+
   await Promise.all([
     redis.del("home:featured"),
     redis.del("home:latest"),

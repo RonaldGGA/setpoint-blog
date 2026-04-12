@@ -4,11 +4,13 @@ import { headers } from "next/headers";
 import ThemeToggle from "./ThemeToggle";
 import NavbarUser from "./NavbarUser";
 import SearchButton from "./SearchButton";
+import NavbarMobile from "./NavbarMobile";
 
 export default async function Navbar() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+  const user = session?.user ?? null;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-surface/80 backdrop-blur-md">
@@ -21,7 +23,7 @@ export default async function Navbar() {
           Setpoint
         </Link>
 
-        <div className="flex items-center gap-5 text-sm text-text-muted">
+        <div className="hidden md:flex items-center gap-5 text-sm text-text-muted">
           <Link
             href="/articles"
             className="transition-colors hover:text-text-primary"
@@ -42,11 +44,13 @@ export default async function Navbar() {
           </Link>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3">
           <SearchButton />
           <ThemeToggle />
-          <NavbarUser user={session?.user ?? null} />
+          <NavbarUser user={user} />
         </div>
+
+        <NavbarMobile user={user} />
       </nav>
     </header>
   );
