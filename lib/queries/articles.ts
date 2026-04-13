@@ -251,3 +251,13 @@ export const GET_ARTICLES_BY_TAG = gql`
     }
   }
 `;
+export const GET_ALL_ARTICLES_SLUGS_AND_TITLES = gql`
+  query GetAllArticlesSlugsAndTitles {
+    articleCollection(order: publishedAt_DESC) {
+      items {
+        slug
+        title
+      }
+    }
+  }
+`;

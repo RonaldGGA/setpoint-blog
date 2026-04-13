@@ -6,8 +6,9 @@ import { toggleSyndication } from "@/lib/actions/syndication";
 type Props = {
   setting: {
     articleSlug: string;
+    title: string;
     enabled: boolean;
-    updatedAt: Date;
+    updatedAt: Date | null;
   };
 };
 
@@ -29,10 +30,12 @@ export default function SyndicationRow({ setting }: Props) {
       </span>
       <div className="flex items-center gap-4">
         <span className="text-xs text-text-muted">
-          {new Date(setting.updatedAt).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-          })}
+          {setting.updatedAt
+            ? new Date(setting.updatedAt).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              })
+            : "—"}
         </span>
         <button
           onClick={handleToggle}

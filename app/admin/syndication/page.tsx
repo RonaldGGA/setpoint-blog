@@ -1,14 +1,24 @@
 import { getSyndicationSettings } from "@/lib/actions/syndication";
-import { getSyndicationLogsPaginated } from "@/lib/actions/syndication";
+import { getClient } from "@/lib/ApolloClient";
+import { GET_ALL_ARTICLES_SLUGS_AND_TITLES } from "@/lib/queries/articles";
 import SyndicationRow from "@/app/components/admin/SyndicationRow";
-import { Rss } from "lucide-react";
-import SyndicationLogList from "@/app/components/admin/SyndicationLogList";
+import { GetAllArticlesSlugsAndTitlesQuery } from "@/types/contentful";
 
 export default async function AdminSyndicationPage() {
-  const [settings, { logs, nextCursor }] = await Promise.all([
-    getSyndicationSettings(),
-    getSyndicationLogsPaginated(),
-  ]);
+  const { data } = await getClient().query<GetAllArticlesSlugsAndTitlesQuery>({
+    query: GET_ALL_ARTICLES_SLUGS_AND_TITLES,
+  });
+  const allArticles = data?.articleCollection?.items ?? [];
+
+  const settings = await getSyndicationSettings();
+  const settingsMap = new Map(settings.map((s) => [s.articleSlug, s.enabled]));
+
+  const articlesWithSettings = allArticles.map((article) => ({
+    articleSlug: article.slug,
+    title: article.title,
+    enabled: settingsMap.get(article.slug) ?? false,
+    updatedAt: null,
+  }));
 
   return (
     <div className="space-y-10">
@@ -23,32 +33,19 @@ export default async function AdminSyndicationPage() {
 
       <div>
         <h2 className="mb-4 text-sm font-semibold text-text-primary">
-          Article settings
+          All articles
         </h2>
-        {settings.length === 0 ? (
+        {articlesWithSettings.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border py-16">
-            <Rss size={24} className="text-border" />
-            <p className="text-sm text-text-muted">
-              No syndication settings configured yet.
-            </p>
-            <p className="text-xs text-text-muted">
-              Settings are created automatically when an article webhook fires.
-            </p>
+            <p className="text-sm text-text-muted">No articles found.</p>
           </div>
         ) : (
           <div className="divide-y divide-border rounded-xl border border-border bg-surface">
-            {settings.map((s) => (
-              <SyndicationRow key={s.articleSlug} setting={s} />
+            {articlesWithSettings.map((article) => (
+              <SyndicationRow key={article.articleSlug} setting={article} />
             ))}
           </div>
         )}
-      </div>
-
-      <div>
-        <h2 className="mb-4 text-sm font-semibold text-text-primary">
-          Activity log
-        </h2>
-        <SyndicationLogList initialLogs={logs} initialNextCursor={nextCursor} />
       </div>
     </div>
   );

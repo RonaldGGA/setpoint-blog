@@ -105,3 +105,12 @@ export type GetSeriesBySlugQuery = {
     items: SeriesDetail[];
   };
 };
+
+export type GetAllArticlesSlugsAndTitlesQuery = {
+  articleCollection: {
+    items: {
+      slug: string;
+      title: string;
+    }[];
+  };
+};
