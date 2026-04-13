@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Article } from "@/types/contentful";
 import { ArrowRight } from "lucide-react";
 import TagBadge from "./TagBadge";
+import { contentfulImageLoader } from "@/lib/utils";
 
 type Props = {
   article: Article;
@@ -23,6 +24,7 @@ export default function FeaturedCard({ article }: Props) {
         <div className="relative min-h-75 sm:min-h-90 lg:min-h-105">
           {article.coverImage ? (
             <Image
+              loader={contentfulImageLoader}
               src={article.coverImage.url}
               alt={article.title}
               fill

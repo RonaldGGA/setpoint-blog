@@ -1,3 +1,5 @@
+import type { ImageLoaderProps } from "next/image";
+
 /**
  * lib/utils.ts
  * Pure utility functions — no side effects, easy to test
@@ -10,7 +12,7 @@
 export function calculateReadingTime(text: string): number {
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   const minutes = Math.ceil(words / 200);
-  return Math.max(1, minutes); // minimum 1 minute
+  return Math.max(1, minutes);
 }
 
 /**
@@ -33,9 +35,9 @@ export function slugify(title: string): string {
   return title
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, "") // remove special chars
-    .replace(/\s+/g, "-") // spaces to hyphens
-    .replace(/-+/g, "-"); // collapse multiple hyphens
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
 }
 
 /**
@@ -45,4 +47,16 @@ export function slugify(title: string): string {
 export function truncateExcerpt(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
   return text.slice(0, maxLength).trimEnd() + "...";
+}
+
+export function contentfulImageLoader({
+  src,
+  width,
+  quality,
+}: ImageLoaderProps): string {
+  const url = src.startsWith("//") ? `https:${src}` : src;
+
+  const base = url.split("?")[0];
+
+  return `${base}?w=${width}&fm=webp&q=${quality ?? 75}&fit=fill`;
 }
