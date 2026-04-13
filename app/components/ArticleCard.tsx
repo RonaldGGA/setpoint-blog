@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Article } from "@/types/contentful";
 import TagBadge from "./TagBadge";
 import ReadingListButton from "./ReadingListButton";
@@ -11,7 +10,7 @@ type Props = {
   index?: number;
 };
 
-export default function ArticleCard({ article, index = 0 }: Props) {
+export default function ArticleCard({ article }: Props) {
   const date = new Date(article.publishedAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
@@ -20,10 +19,7 @@ export default function ArticleCard({ article, index = 0 }: Props) {
   const accentColor = article.tags.items[0]?.color ?? "#F59E0B";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.08 }}
+    <div
       className="group relative flex flex-col rounded-xl border border-border bg-surface overflow-hidden transition-[border-color,box-shadow] duration-300 hover:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.4)]"
       style={{ borderTopColor: accentColor }}
     >
@@ -71,6 +67,6 @@ export default function ArticleCard({ article, index = 0 }: Props) {
           </div>
         </Link>
       </div>
-    </motion.div>
+    </div>
   );
 }

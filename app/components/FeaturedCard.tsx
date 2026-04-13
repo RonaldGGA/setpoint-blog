@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { Article } from "@/types/contentful";
 import { ArrowRight } from "lucide-react";
 import TagBadge from "./TagBadge";
@@ -40,12 +39,7 @@ export default function FeaturedCard({ article }: Props) {
 
           <div className="absolute inset-0 bg-linear-to-t from-background via-background/85 to-background/20" />
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: "easeOut", delay: 0.1 }}
-            className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 lg:p-10"
-          >
+          <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 lg:p-10">
             <div className="max-w-2xl">
               <div className="mb-3 flex flex-wrap items-center gap-2 sm:mb-4 sm:gap-3">
                 <span className="text-xs font-semibold uppercase tracking-widest text-primary">
@@ -95,7 +89,7 @@ export default function FeaturedCard({ article }: Props) {
                 </Link>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
