@@ -6,6 +6,8 @@
 
 Live → **[setpoint-blog.vercel.app](https://setpoint-blog.vercel.app)**
 
+![Setpoint homepage screenshot](./public/screenshot.webp)
+
 ---
 
 ## Architecture
@@ -382,7 +384,7 @@ npm run dev
 ```bash
 npm run test          # Vitest unit + component tests
 npm run test:e2e      # Playwright end-to-end
-npm run test:coverage # Coverage report
+
 ```
 
 | Suite | Tests |
