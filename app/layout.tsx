@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import NetworkBackground from "./components/NetworkBackground";
 import HideOnAdmin from "./components/NavbarWrapper";
 import { ReadingListProvider } from "./components/ReadingListProvider";
+import { ResourceHints } from "./components/ResourceHints";
 
 const inter = localFont({
   src: "./fonts/InterVariable.woff2",
@@ -37,6 +38,7 @@ export default function RootLayout({
             __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');}catch(e){}})();`,
           }}
         />
+        <ResourceHints />
         <NetworkBackground />
         <HideOnAdmin>
           <Navbar />
