@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { Article } from "@/types/contentful";
@@ -23,8 +22,10 @@ export default function FeaturedCard({ article }: Props) {
         <div className="relative min-h-75 sm:min-h-90 lg:min-h-105">
           {article.coverImage ? (
             <Image
-              loader={contentfulImageLoader}
-              src={article.coverImage.url}
+              src={contentfulImageLoader({
+                src: article.coverImage.url,
+                width: 860,
+              })}
               alt={article.title}
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
